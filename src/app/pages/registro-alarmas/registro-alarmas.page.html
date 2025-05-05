@@ -1,0 +1,13 @@
+<ion-list *ngIf="alertas.length > 0">
+  <ion-item *ngFor="let alerta of alertas">
+    <ion-label>
+      <h3>{{ tipoAlertas[alerta.tipo_alerta] || 'Alerta' }}</h3>
+      <p>{{ alerta.mensaje }}</p>
+      <p *ngIf="alerta.ubicacion">
+        <strong>Ubicación:</strong>
+        <a [href]="alerta.ubicacion" target="_blank">{{ alerta.ubicacion }}</a>
+      </p>
+      <p><strong>Fecha:</strong> {{ alerta.fecha | date:'short' }}</p>
+    </ion-label>
+  </ion-item>
+</ion-list>

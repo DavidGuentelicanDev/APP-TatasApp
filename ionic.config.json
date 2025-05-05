@@ -1,0 +1,7 @@
+{
+  "name": "TatasApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

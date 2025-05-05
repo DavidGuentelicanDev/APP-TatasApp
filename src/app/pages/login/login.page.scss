@@ -1,0 +1,63 @@
+.fondo-login {
+    --background: #e0f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .contenedor-login {
+    width: 90%;
+    max-width: 350px;
+    margin: auto;
+    text-align: center;
+  }
+  
+  .logo-login {
+    width: 120px;
+    margin: 40px auto 20px;
+  }
+  
+  .titulo-login {
+    color: #007d8c;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+  
+  .input-item {
+    background: #ffffff;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    padding: 0 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .input-item ion-input {
+    margin-left: 8px;
+  }
+  
+  .boton-ingresar {
+    --background: #64b3b5;
+    --border-radius: 20px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+  }
+  
+  .boton-registrarse {
+    --border-radius: 20px;
+    --color: #007d8c;
+    --border-color: #007d8c;
+    margin-top: 10px;
+  }
+  .encabezado-registro {
+    background-color: #007d8c !important; /* fuerza el color de fondo */
+    --background: #007d8c;                /* asegura compatibilidad con variables de Ionic */
+    color: white !important;              /* fuerza el color de texto */
+  }
+  
+  .titulo-registro {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #007d8c !important;
+  }

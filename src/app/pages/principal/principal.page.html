@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>TatasApp</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-list>
+    <ion-item button (click)="navegarMapaPrueba()">
+      <ion-icon name="locate" slot="start"></ion-icon>
+      <ion-label>Mapa de prueba</ion-label>
+    </ion-item>
+    <ion-item button routerLink="/obtener-contactos">
+      <ion-icon name="people" slot="start"></ion-icon>
+      <ion-label>Obtener Contacto</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" (click)="navegarFamiliares()" class="ion-padding">Familiares</ion-button>
+  <ion-button expand="block" (click)="navegarEventos()" class="ion-padding">Eventos</ion-button>
+  <ion-button expand="block" (click)="navegarZonaSegura()" class="ion-padding">Alertas</ion-button>
+  <ion-button expand="block" class="ion-padding">Configuración</ion-button>
+  <ion-button expand="block" (click)="cerrarSesion()" class="ion-padding">Cerrar Sesión</ion-button>
+  <ion-button expand="block" (click)="generarSOS()" class="ion-padding">SOS</ion-button>
+</ion-content>

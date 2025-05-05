@@ -1,0 +1,71 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Crear Evento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="fondo-registro">
+  <div class="contenedor-registro">
+    
+    <!-- Encabezado y título -->
+    <ion-header class="encabezado-registro">
+      <ion-toolbar>
+        <ion-title class="titulo-registro">Crear Evento</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <!-- Formulario -->
+    <form (ngSubmit)="crearEvento()">
+      
+      <!-- Nombre del evento -->
+      <ion-item class="input-item">
+        <ion-input
+          placeholder="Nombre del evento"
+          [(ngModel)]="mdl_evento.nombre"
+          name="nombre"
+          required
+        ></ion-input>
+      </ion-item>
+
+      <!-- Descripción -->
+      <ion-item class="input-item">
+        <ion-input
+          placeholder="Descripción"
+          [(ngModel)]="mdl_evento.descripcion"
+          name="descripcion"
+        ></ion-input>
+      </ion-item>
+
+      <!-- Fecha y hora -->
+      <ion-item class="input-item">
+        <ion-datetime
+          presentation="date-time"
+          placeholder="Fecha y hora"
+          [(ngModel)]="mdl_evento.fechaHora"
+          name="fechaHora"
+          required
+        ></ion-datetime>
+      </ion-item>
+
+      <!-- Tipo de evento -->
+      <ion-item class="input-item">
+        <ion-select
+          placeholder="Tipo de evento"
+          [(ngModel)]="mdl_evento.tipoEvento"
+          name="tipoEvento"
+          interface="action-sheet"
+          required
+        >
+          <ion-select-option value="1">Control médico</ion-select-option>
+          <ion-select-option value="2">Cumpleaños</ion-select-option>
+          <ion-select-option value="3">Reunión familiar</ion-select-option>
+          <ion-select-option value="4">Otro</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Botón enviar -->
+      <ion-button expand="block" type="submit" class="boton-siguiente">Crear Evento</ion-button>
+
+    </form>
+  </div>
+</ion-content>

@@ -1,0 +1,81 @@
+.fondo-registro {
+    --background: #e0f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .contenedor-registro {
+    width: 90%;
+    max-width: 350px;
+    margin: auto;
+    text-align: center;
+    padding-top: 20px;
+  }
+  
+  .logo-registro {
+    width: 90px;
+    margin: 0 auto 10px;
+  }
+  
+  .titulo-registro {
+    color: #007d8c;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .input-item {
+    background: #ffffff;
+    border-radius: 50px;
+    margin-bottom: 15px;
+    padding: 0 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  ion-input::part(native),
+  ion-datetime::part(native),
+  ion-select::part(native) {
+    text-align: left;
+    padding-left: 5px;
+    font-size: 15px;
+    color: #333;
+  }
+  
+  .boton-siguiente {
+    --background: #007d8c;
+    --color: white;
+    --border-radius: 20px;
+    font-weight: bold;
+    margin-top: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .encabezado-registro {
+    background-color: #007d8c !important; /* fuerza el color de fondo */
+    --background: #007d8c;                /* asegura compatibilidad con variables de Ionic */
+    color: white !important;              /* fuerza el color de texto */
+  }
+  
+  .titulo-registro {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #007d8c !important;
+  }
+
+  gmpx-place-autocomplete {
+    min-height: 56px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background: white;
+    z-index: 9999;
+    display: block;
+  }
+  #fake-placeholder {
+    position: absolute;
+    pointer-events: none;
+    /* Ajusta el estilo para que coincida con el autocomplete */
+  }
