@@ -10,7 +10,7 @@
   <ion-list>
     <ion-item *ngFor="let f of familiaresRegistrados">
       <ion-avatar slot="start">
-        <img [src]="f.familiar_rel.foto_perfil || 'assets/img/default-avatar.png'" alt="Foto de perfil">
+        <img [src]="f.familiar_rel.foto_perfil || 'assets/icon/sin-foto-perfil.webp'" alt="Foto de perfil">
       </ion-avatar>
       <ion-label>
         <h2>{{ f.familiar_rel.nombres }} {{ f.familiar_rel.apellidos }}</h2>

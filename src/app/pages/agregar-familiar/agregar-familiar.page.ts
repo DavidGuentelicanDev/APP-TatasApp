@@ -9,7 +9,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { Contacts, Contact, ContactFieldType } from '@awesome-cordova-plugins/contacts/ngx';
 import { Platform } from '@ionic/angular';
 import { lastValueFrom } from 'rxjs';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -42,7 +42,8 @@ export class AgregarFamiliarPage implements OnInit {
     private router: Router,
     private contacts: Contacts,
     private platform: Platform,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private alertController: AlertController
   ) { }
 
   async ngOnInit() {
@@ -200,17 +201,31 @@ export class AgregarFamiliarPage implements OnInit {
         if (json.status == "success") {
           console.log("tatas:", json.message);
         }
-      } catch (error: any) {
-        let respuestaError = JSON.parse(JSON.stringify(error.error));
+      } catch (e: any) {
+        let respuestaError = JSON.parse(JSON.stringify(e.error));
         console.log("tatas:", respuestaError.message);
+        //alerta
+        let alerta = await this.alertController.create({
+          header: "Error",
+          message: "Hubo un error al agregar a los familiares seleccionados. Inténtelo más tarde",
+          buttons: ['OK']
+        });
+        await alerta.present();
       }
     }
     console.log("tatas: Proceso de registro de familiares completado.");
-    await this.obtenerCoincidencias(); //actualiza la lista de contactos coincidentes
-    this.contactosSeleccionados = []; //limpia la lista de contactos seleccionados
-
     await loading.dismiss(); //cierra el loading
-    this.regresarFamiliares();
+    //alerta
+    let alerta = await this.alertController.create({
+      header: "Éxito",
+      message: "Familiares agregados exitosamente"
+    });
+    await alerta.present();
+
+    setTimeout(async() => {
+      this.regresarFamiliares();
+      await alerta.dismiss();
+    }, 1000);
   }
 
   //obtener los familiares registrados por este adulto mayor para bloquear los que ya estan registrados

@@ -7,6 +7,7 @@ import { ApiFamiliaresService } from 'src/app/services/api-familiares.service';
 import { FamiliarRegistrado } from 'src/app/interfaces/familiar';
 import { DbOffService } from 'src/app/services/db-off.service';
 import { lastValueFrom } from 'rxjs';
+import { AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class FamiliaresPage implements OnInit {
   constructor(
     private router: Router,
     private apiFamiliares: ApiFamiliaresService,
-    private dbOff: DbOffService
+    private dbOff: DbOffService,
+    private alertController: AlertController
   ) { }
 
   async ngOnInit() {
@@ -33,6 +35,7 @@ export class FamiliaresPage implements OnInit {
   }
 
   async ionViewWillEnter() {
+    await this.obtenerIdUsuarioLogueado(); //obtener el id del usuario logueado
     await this.cargarFamiliaresRegistrados(); //cargar familiares registrados al volver a la pagina
   }
 
@@ -77,17 +80,51 @@ export class FamiliaresPage implements OnInit {
   //metodo para eliminar un familiar
   //creado por david el 07/05
   async eliminarFamiliar(idFamiliar: number) {
-    try {
-      const confirmacion = confirm('¿Estás seguro de que deseas eliminar a este familiar?');
-      if (!confirmacion) return;
+    let alertaConfirmacion = await this.alertController.create({
+      header: 'Confirmar eliminación',
+      message: '¿Estás seguro de que deseas eliminar a este familiar?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: async () => {
+            try {
+              await lastValueFrom(this.apiFamiliares.eliminarFamiliar(this.idUsuarioLogueado, idFamiliar));
+              console.log("tatas familiar eliminado correctamente");
+              //alerta de exito
+              await this.mostrarAlertasResultadoDeEliminar(
+                "Éxito",
+                "Familiar eliminado correctamente"
+              );
+              await this.cargarFamiliaresRegistrados(); //actualiza la vista de los familiares
+            } catch (e) {
+              console.error("tatas: error al eliminar familiar", e);
+              //alerta de error
+              await this.mostrarAlertasResultadoDeEliminar(
+                "Error",
+                "Hubo un problema al eliminar el familiar. Inténtelo más tarde"
+              );
+            }
+          }
+        }
+      ]
+    });
+    await alertaConfirmacion.present();
+  }
 
-      await lastValueFrom(this.apiFamiliares.eliminarFamiliar(this.idUsuarioLogueado, idFamiliar));
-      await this.cargarFamiliaresRegistrados(); //actualiza la vista de los familiares
-      console.log("tatas familiar eliminado correctamente");
-    } catch (e) {
-      console.error("tatas: error al eliminar familiar", e);
-      alert("Hubo un problema al eliminar el familiar");
-    }
+  //metodo para crear alerta generica de respuesta al eliminar familiar (exito o error)
+  //creado por david el 07/05
+  async mostrarAlertasResultadoDeEliminar(titulo: string, mensaje: string) {
+    let alerta = await this.alertController.create({
+      header: titulo,
+      message: mensaje,
+      buttons: ['OK']
+    });
+    await alerta.present();
   }
 
 }
