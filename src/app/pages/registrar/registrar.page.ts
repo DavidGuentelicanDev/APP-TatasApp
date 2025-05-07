@@ -1,13 +1,14 @@
 //import { NgZone } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { ApiUsuariosService } from 'src/app/services/api-usuarios.service';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { NavigationExtras, Router, RouterModule } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 
 //declaracion global para google
 // declare global {
@@ -15,6 +16,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 //     google: any;
 //   }
 // }
+
 
 @Component({
   selector: 'app-registrar',
@@ -27,10 +29,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 })
 export class RegistrarPage implements OnInit {
 
-   //variables para la direccion
+  //variables para la direccion
   //  direccion: string | null = null;
   //  placeAutocompleteElement: any = null;
-
 
   usuario: Usuario = {
     mdl_nombres: '',
@@ -50,8 +51,9 @@ export class RegistrarPage implements OnInit {
   constructor(
     private alertController: AlertController,
     private api: ApiUsuariosService,
+    private router: Router,
+    private loadingController: LoadingController
     //private zone: NgZone,
-
   ) {}
 
   async ngOnInit() {
@@ -63,19 +65,19 @@ export class RegistrarPage implements OnInit {
   //     if (!window.google) {
   //       throw new Error('Google Maps API no está cargada');
   //     }
-      
+
   //     const { PlaceAutocompleteElement } = await window.google.maps.importLibrary("places");
   //     const container = document.getElementById('autocomplete-container');
-      
+
   //     if (container) {
   //       // Limpiar el contenedor primero
   //       container.innerHTML = '';
-        
+
   //       this.placeAutocompleteElement = new PlaceAutocompleteElement({
   //         types: ["address"],
   //         componentRestrictions: { country: "cl" }
   //       });
-        
+
   //       container.appendChild(this.placeAutocompleteElement);
   //       console.log('Elemento autocomplete creado:', this.placeAutocompleteElement);
   //       console.log('Contenedor:', container.innerHTML);
@@ -96,14 +98,14 @@ export class RegistrarPage implements OnInit {
   // }
   // ngAfterViewInit() {
   //   const element = document.getElementById('autocomplete');
-  
+
   //   if (element) {
   //     console.log('✅ <gmpx-place-autocomplete> encontrado');
-  
+
   //     element.addEventListener('gmpx-placechange', (event: any) => {
   //       const place = event.detail;
   //       console.log('📦 Evento recibido:', place);
-  
+
   //       if (place.formatted_address) {
   //         this.usuario.direccion.direccion_texto = place.formatted_address;
   //         console.log('✅ Dirección guardada:', this.usuario.direccion.direccion_texto);
@@ -113,8 +115,7 @@ export class RegistrarPage implements OnInit {
   //     console.warn('⚠️ No se encontró <gmpx-place-autocomplete>');
   //   }
   // }
-  
-  
+
   async registrarUsuario() {
     const u = this.usuario;
     if (
@@ -141,6 +142,15 @@ export class RegistrarPage implements OnInit {
     const fechaNacimientoStr = u.mdl_fecha_nacimiento.split('T')[0]; // "2025-04-01"
     const [year, month, day] = fechaNacimientoStr.split('-').map(Number);
     const fechaConvertida = new Date(Date.UTC(year, month - 1, day)); // Hora cero en UTC
+
+    //loading para cubrir el tiempo que demora crear el usuario
+    let loading = await this.loadingController.create({
+      message: 'Registrando usuario...',
+      spinner: 'crescent',
+      backdropDismiss: false,
+    });
+    await loading.present();
+
     try {
       await this.api.registrar_usuario(
         u.mdl_nombres,
@@ -152,12 +162,24 @@ export class RegistrarPage implements OnInit {
         u.mdl_contrasena,
         u.direccion 
       ).toPromise();
-      this.presentAlert('Éxito', 'Usuario creado correctamente');
-      this.limpiarFormulario();
+
+      await loading.dismiss(); //desaparece el loading
+
+      //alert especial sólo para el registro exitoso
+      let alertaExito = await this.alertController.create({
+        header: "Éxito",
+        message: "Usuario registrado correctamente",
+      });
+      await alertaExito.present();
+
+      setTimeout(async() => {
+        await alertaExito.dismiss();
+        this.regresarLogin();
+      }, 1000);
 
     } catch (error: any) {
       // 🟡 Captura mensaje de error detallado desde la API
-      console.error('Error completo:', error);
+      console.error('tatas Error completo:', error);
   
       let mensaje = 'Ocurrió un error inesperado';
   
@@ -169,7 +191,7 @@ export class RegistrarPage implements OnInit {
       } else if (typeof error === 'string') {
         mensaje = error;
       }
-  
+
       //this.presentAlert('Error', mensaje);
     }
   }
@@ -198,6 +220,11 @@ export class RegistrarPage implements OnInit {
       mdl_contrasena: '',
       mdl_confirmarContrasena: ''
     };
+  }
+
+  regresarLogin() {
+    let extras: NavigationExtras = {replaceUrl: true};
+    this.router.navigate(["login"], extras);
   }
 
 }

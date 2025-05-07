@@ -12,11 +12,6 @@ import { environmentLocal } from '../config.local';
 })
 export class ApiUsuariosService {
 
-  
-  verificar_usuario(){
-    throw new Error('Method not implemented.');
-  }
-
   //URL de la API, puede cambiar
   private baseUrl = environmentLocal.URLbase;
 
@@ -42,32 +37,7 @@ export class ApiUsuariosService {
       contrasena,
       direccion
     };
-  
-    console.log('tatas ' + this.baseUrl + '/usuarios/registro_usuario');
-  
-    return this.http.post(this.baseUrl + '/usuarios/registro_usuario', usuario).pipe(
-      tap(async (respuesta: any) => {
-        const header = respuesta.status === 'success' ? 'Éxito' : 'Error';
-        const mensaje = respuesta.message || 'Operación completada';
-        await this.presentAlert(header, mensaje);
-      }),
-      catchError(async (error: any) => {
-        const mensajes = error?.error?.errors?.map((e: any) => e.message).join('\n');
-        const header = 'Error';
-        const mensajeError = error?.error?.message || 'Ocurrió un error inesperado';
-        await this.presentAlert(header, mensajes || mensajeError);
-        throw error;
-      })
-    );
-  }
-  
-  async presentAlert(header: string, message: string) {
-    const alert = await this.alertController.create({
-      header,
-      message,
-      buttons: ['OK']
-    });
-    await alert.present();
+    return this.http.post(this.baseUrl + '/usuarios/registro_usuario', usuario).pipe();
   }
 
   //ruta para el login
@@ -77,10 +47,8 @@ export class ApiUsuariosService {
       correo,
       contrasena
     };
-
     usuario.correo = correo;
     usuario.contrasena = contrasena;
-
     return this.http.post(this.baseUrl + "/usuarios/login", usuario).pipe();
   }
 
