@@ -41,7 +41,8 @@ export class AgregarFamiliarPage implements OnInit {
     private apiFamiliares: ApiFamiliaresService,
     private router: Router,
     private contacts: Contacts,
-    private platform: Platform
+    private platform: Platform,
+    private loadingController: LoadingController
   ) { }
 
   async ngOnInit() {
@@ -176,6 +177,14 @@ export class AgregarFamiliarPage implements OnInit {
   //funcion para registrar familiares
   //creada por david el 03/05
   async agregarFamiliares() {
+    //muestra el loading al agregar familiares
+    let loading = await this.loadingController.create({
+      message: 'Agregando familiar...',
+      backdropDismiss: false, //bloquea la pantalla
+      spinner: 'circles',
+    });
+    await loading.present();
+
     for (let contacto of this.contactosSeleccionados) {
       let familiar: FamiliarRegistro = {
         idAdultoMayor: this.idUsuarioLogueado,
@@ -199,6 +208,9 @@ export class AgregarFamiliarPage implements OnInit {
     console.log("tatas: Proceso de registro de familiares completado.");
     await this.obtenerCoincidencias(); //actualiza la lista de contactos coincidentes
     this.contactosSeleccionados = []; //limpia la lista de contactos seleccionados
+
+    await loading.dismiss(); //cierra el loading
+    this.regresarFamiliares();
   }
 
   //obtener los familiares registrados por este adulto mayor para bloquear los que ya estan registrados
@@ -213,6 +225,13 @@ export class AgregarFamiliarPage implements OnInit {
     } catch (e) {
       console.error("tatas Error al obtener familiares registrados:", e);
     }
+  }
+
+  //navegar a pagina central de familiares
+  //creado por david el 07/05
+  regresarFamiliares() {
+    let extras: NavigationExtras = {replaceUrl: true};
+    this.router.navigate(["familiares"], extras);
   }
 
 }
