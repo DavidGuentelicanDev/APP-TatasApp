@@ -38,4 +38,10 @@ export class ApiFamiliaresService {
     return this.http.get<FamiliarRegistrado[]>(url);
   }
 
+  //ruta para eliminar un familiar por parte del adulto mayor
+  //creado por david el 07/05
+  eliminarFamiliar(idAdultoMayor: number, idFamiliar: number) {
+    return this.http.delete(`${this.baseUrl}/familiares/eliminar-familiar/${idAdultoMayor}/${idFamiliar}`).pipe();
+  }
+
 }

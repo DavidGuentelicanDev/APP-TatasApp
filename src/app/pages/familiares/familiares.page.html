@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Familiares</ion-title>
+    <ion-title>Grupo Familiar</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -17,7 +17,7 @@
         <p>Correo: {{ f.familiar_rel.correo }}</p>
         <p>Teléfono: {{ f.familiar_rel.telefono }}</p>
       </ion-label>
-      <ion-button fill="clear" color="danger" slot="end">
+      <ion-button fill="clear" color="danger" slot="end" (click)="eliminarFamiliar(f.familiar_rel.id_usuario)">
         <ion-icon name="trash" slot="icon-only" size="large"></ion-icon>
       </ion-button>
     </ion-item>

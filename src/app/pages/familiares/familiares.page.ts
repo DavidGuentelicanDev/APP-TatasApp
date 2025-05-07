@@ -74,4 +74,20 @@ export class FamiliaresPage implements OnInit {
     }
   }
 
+  //metodo para eliminar un familiar
+  //creado por david el 07/05
+  async eliminarFamiliar(idFamiliar: number) {
+    try {
+      const confirmacion = confirm('¿Estás seguro de que deseas eliminar a este familiar?');
+      if (!confirmacion) return;
+
+      await lastValueFrom(this.apiFamiliares.eliminarFamiliar(this.idUsuarioLogueado, idFamiliar));
+      await this.cargarFamiliaresRegistrados(); //actualiza la vista de los familiares
+      console.log("tatas familiar eliminado correctamente");
+    } catch (e) {
+      console.error("tatas: error al eliminar familiar", e);
+      alert("Hubo un problema al eliminar el familiar");
+    }
+  }
+
 }
