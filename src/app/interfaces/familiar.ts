@@ -22,3 +22,19 @@ export interface FamiliarRegistro {
     idAdultoMayor: number;
     idFamiliar: number;
 }
+
+//interfaces para obtener a los familiares registrados por el adulto mayor
+//creado por david el 07/05
+export interface FamiliarRelacionado {
+    id_usuario: number;
+    nombres: string;
+    apellidos: string;
+    correo: string;
+    telefono: string;
+    foto_perfil: string | null;
+}
+
+export interface FamiliarRegistrado {
+    id_adulto_mayor: number;
+    familiar_rel: FamiliarRelacionado;
+}

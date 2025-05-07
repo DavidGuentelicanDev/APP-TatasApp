@@ -6,18 +6,25 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-item *ngFor="let contacto of contactosCoincidentes" (click)="seleccionarContacto(contacto)">
+    <ion-item
+      *ngFor="let contacto of contactosCoincidentes"
+      [disabled]="contacto.bloqueado"
+      (click)="seleccionarContacto(contacto)"
+      [class.bloqueado]="contacto.bloqueado">
       <!-- Círculo de selección -->
       <ion-icon
         [name]="estaSeleccionado(contacto) ? 'radio-button-on' : 'radio-button-off'"
         slot="start"
-        color="primary"
-        size="small">
+        [color]="contacto.bloqueado ? 'medium' : 'primary'"
+        size="large">
       </ion-icon>
 
       <ion-label>
         <h2>{{ contacto.nombre }}</h2>
-        <p>{{ contacto.numero }}</p>
+        <p>
+          {{ contacto.numero }}
+          <span *ngIf="contacto.bloqueado" class="bloqueado-texto">(Ya agregado)</span>
+        </p>
       </ion-label>
     </ion-item>
   </ion-list>

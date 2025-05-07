@@ -98,8 +98,8 @@ export class LoginPage implements OnInit {
 
   //metodo para navegar al registro
   //creado por andrea el 30/04
-  navegarRegistro() {
-    this.router.navigate(["registro"]);
+  navegarRegistrar() {
+    this.router.navigate(["registrar"]);
   }
 
   //metodo para mostrar alertas a respuestas del login
