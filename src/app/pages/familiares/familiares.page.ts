@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonList, IonAvatar, IonLabel, IonItem } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonList, IonAvatar, IonLabel, IonItem, IonIcon } from '@ionic/angular/standalone';
 import { NavigationExtras, Router } from '@angular/router';
 import { ApiFamiliaresService } from 'src/app/services/api-familiares.service';
 import { FamiliarRegistrado } from 'src/app/interfaces/familiar';
@@ -14,7 +14,7 @@ import { lastValueFrom } from 'rxjs';
   templateUrl: './familiares.page.html',
   styleUrls: ['./familiares.page.scss'],
   standalone: true,
-  imports: [IonLabel, IonAvatar, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem]
+  imports: [IonIcon, IonLabel, IonAvatar, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem]
 })
 export class FamiliaresPage implements OnInit {
 
