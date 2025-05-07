@@ -59,7 +59,15 @@ export class FamiliaresPage implements OnInit {
   async cargarFamiliaresRegistrados() {
     try {
       let data = await lastValueFrom(this.apiFamiliares.obtenerFamiliaresRegistrados(this.idUsuarioLogueado));
+
+      //ordenar los campos por nombres
+      data.sort((a, b) => {
+        let nombres = a.familiar_rel.nombres.toLowerCase();
+        let apellidos = b.familiar_rel.nombres.toLowerCase();
+        return nombres.localeCompare(apellidos);
+      });
       this.familiaresRegistrados = data;
+
       console.log("tatas FAMILIARES REGISTRADOS: ", JSON.stringify(this.familiaresRegistrados));
     } catch (e) {
       console.error("tatas Error al obtener familiares registrados:", e);
