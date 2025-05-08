@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ApiAlertasService } from './api-alertas.service';
 import { DbOffService } from './db-off.service';
+import { LocalNotifications } from '@capacitor/local-notifications';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,9 @@ export class NotificacionesAlertasService {
   constructor(
     private apiAlertas: ApiAlertasService,
     private dbOff: DbOffService
-  ) { }
+  ) {
+    this.solicitarPermisosNotificaciones();
+  }
 
   //obtener id de usuario logueado
   //creado por andrea el 30/04
@@ -36,6 +40,11 @@ export class NotificacionesAlertasService {
     this.apiAlertas.obtenerAlertasPendientes(this.idUsuarioLogueado).subscribe({
       next: (alertas) => {
         console.log("tatas: alertas recibidas", JSON.stringify(alertas));
+
+        //se generan las notificaciones locales
+        if (alertas && alertas.length > 0) {
+          this.mostrarNotificacion();
+        }
       },
       error: (error) => {
         console.error("tatas: error al recibir alertas", error);
@@ -72,6 +81,34 @@ export class NotificacionesAlertasService {
     }, 10000);
 
     console.log("tatas: Consulta automática de alertas iniciada");
+  }
+
+  //metodo para solicitar permiso de notificaciones locales
+  //creado por david el 07/05
+  async solicitarPermisosNotificaciones() {
+    const status = await LocalNotifications.requestPermissions();
+    if (status.display !== 'granted') {
+      console.warn("TATAS: Permiso para notificaciones locales NO concedido");
+    } else {
+      console.log("TATAS: Permiso para notificaciones locales concedido");
+    }
+  }
+
+  async mostrarNotificacion() {
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: 'Alerta recibida',
+          body: 'Esta es una notificación de prueba',
+          id: Math.floor(Date.now() % 1000000), //id unico para la prueba
+          schedule: { at: new Date(Date.now() + 1000) }, // mostrar en 1 segundo
+          sound: "",
+          attachments: undefined,
+          actionTypeId: "",
+          extra: null
+        }
+      ]
+    });
   }
 
 }
