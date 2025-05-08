@@ -23,7 +23,8 @@ declare var google: any;
 })
 export class RegistrarPage implements OnInit {
 
-  autocomplete: any;
+  autocomplete: any; //para el autocompletado de la direccion
+  fechaMaximaHoy: string = new Date().toISOString().split('T')[0];
 
   usuario: Usuario = {
     mdl_nombres: '',
@@ -100,16 +101,37 @@ export class RegistrarPage implements OnInit {
       this.presentAlert('Error', 'Todos los campos son obligatorios');
       return;
     }
-    
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(u.mdl_correo_electronico)) {
+      this.presentAlert('Error', 'El correo electrónico debe tener formato correo@example.com');
+      return;
+    }
+
+    if (!/^9\d{8}$/.test(u.mdl_telefono)) {
+      this.presentAlert('Error', 'El teléfono debe comenzar con 9 y tener 9 dígitos en total');
+      return;
+    }
 
     if (u.mdl_contrasena !== u.mdl_confirmarContrasena) {
       this.presentAlert('Error', 'Las contraseñas no coinciden');
       return;
     }
 
+    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!regexPassword.test(u.mdl_contrasena)) {
+      this.presentAlert('Error', 'La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula y un número.');
+      return;
+    }
+
     const fechaNacimientoStr = u.mdl_fecha_nacimiento.split('T')[0]; // "2025-04-01"
     const [year, month, day] = fechaNacimientoStr.split('-').map(Number);
     const fechaConvertida = new Date(Date.UTC(year, month - 1, day)); // Hora cero en UTC
+    const hoy = new Date();
+
+    if (fechaConvertida > hoy) {
+      this.presentAlert('Error', 'La fecha de nacimiento no puede ser futura');
+      return;
+    }
 
     //loading para cubrir el tiempo que demora crear el usuario
     let loading = await this.loadingController.create({
@@ -148,19 +170,7 @@ export class RegistrarPage implements OnInit {
     } catch (error: any) {
       // 🟡 Captura mensaje de error detallado desde la API
       console.error('tatas Error completo:', error);
-  
-      let mensaje = 'Ocurrió un error inesperado';
-  
-      // Si el backend manda un mensaje más claro, lo mostramos
-      if (error?.error?.detail) {
-        mensaje = error.error.detail;
-      } else if (error?.message) {
-        mensaje = error.message;
-      } else if (typeof error === 'string') {
-        mensaje = error;
-      }
-
-      //this.presentAlert('Error', mensaje);
+      this.presentAlert("Error", "No se pudo registrar tu usuario. Inténtelo nuevamente más tarde")
     }
   }
 
