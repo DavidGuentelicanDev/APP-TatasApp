@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ApiAlertasService } from './api-alertas.service';
 import { DbOffService } from './db-off.service';
-import { LocalNotifications } from '@capacitor/local-notifications';
+import { ActionPerformed, LocalNotifications } from '@capacitor/local-notifications';
+import { Browser } from '@capacitor/browser';
 
 
 @Injectable({
@@ -25,7 +26,8 @@ export class NotificacionesAlertasService {
     private apiAlertas: ApiAlertasService,
     private dbOff: DbOffService
   ) {
-    this.solicitarPermisosNotificaciones();
+    this.solicitarPermisosNotificaciones(); //para pedir permisos de notificaciones
+    this.escucharClicEnNotificaciones(); //para iniciar el poder hacer "click" en la notificacion local y navegar a google maps
   }
 
   //obtener id de usuario logueado
@@ -115,10 +117,30 @@ export class NotificacionesAlertasService {
         sound: "",
         attachments: undefined,
         actionTypeId: "",
-        extra: null
+        extra: {
+          ubicacion: alerta.ubicacion
+        }
       };
     });
     await LocalNotifications.schedule({ notifications: notificaciones });
+  }
+
+  //metodo para que al hacer click en la notificacion local, se navegue a google maps con la direccion indicada
+  //creado por david el 08/05
+  escucharClicEnNotificaciones() {
+    LocalNotifications.addListener('localNotificationActionPerformed', async (notification: ActionPerformed) => {
+      let url = notification.notification.extra?.ubicacion;
+
+      if (url) {
+        try {
+          await Browser.open({ url });
+        } catch (e) {
+          console.error("TATAS: No se pudo abrir el navegador", e);
+        }
+      } else {
+        console.log("TATAS: No hay URL en la notificación");
+      }
+    });
   }
 
 }
