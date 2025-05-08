@@ -38,12 +38,16 @@
       </ion-item>
 
       <ion-item lines="none" class="input-item ion-margin-top">
-        <ion-input type="password" [(ngModel)]="usuario.mdl_contrasena" name="contrasena" placeholder="CONTRASEÑA" required></ion-input>
+        <ion-input type="password" [(ngModel)]="usuario.mdl_contrasena" name="contrasena" placeholder="CONTRASEÑA" required>
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
       </ion-item>
       <ion-note color="medium">Mínimo 8 caracteres (Mayúsculas, minúsculas y números)</ion-note>
 
       <ion-item lines="none" class="input-item ion-margin-top">
-        <ion-input type="password" [(ngModel)]="usuario.mdl_confirmarContrasena" name="confirmar" placeholder="REPETIR CONTRASEÑA" required></ion-input>
+        <ion-input type="password" [(ngModel)]="usuario.mdl_confirmarContrasena" name="confirmar" placeholder="REPETIR CONTRASEÑA" required>
+          <ion-input-password-toggle slot="end" color="dark"></ion-input-password-toggle>
+        </ion-input>
       </ion-item>
       <ion-note color="medium">Mínimo 8 caracteres (Mayúsculas, minúsculas y números)</ion-note>
 

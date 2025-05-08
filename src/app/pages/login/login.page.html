@@ -11,7 +11,9 @@
       </ion-item>
       <ion-item lines="none" class="input-item">
         <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-        <ion-input type="password" [(ngModel)]="mdl_usuario.contrasena" name="contrasena" placeholder="Contraseña" required></ion-input>
+        <ion-input type="password" [(ngModel)]="mdl_usuario.contrasena" name="contrasena" placeholder="Contraseña" required>
+          <ion-input-password-toggle slot="end" color="dark"></ion-input-password-toggle>
+        </ion-input>
       </ion-item>
 
       <ion-button expand="block" class="boton-ingresar" type="submit">
