@@ -18,3 +18,10 @@ export interface AlertasPendientes {
     fecha_hora: Date;
     estado_alerta: number;
 }
+
+//interfaz para actualizar el estado de la alerta a 1
+//creado por david el 08/05
+export interface EstadoAlertaResponse {
+    status: string;
+    message: string;
+}

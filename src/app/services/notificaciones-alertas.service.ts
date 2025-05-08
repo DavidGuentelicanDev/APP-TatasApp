@@ -88,7 +88,7 @@ export class NotificacionesAlertasService {
     //luego se ejecuta cada N segundos
     this.intervaloAlertas = setInterval(() => {
       this.recibirAlertasPendientes();
-    }, 15000);
+    }, 30000); //(MODIFICAR ESTA PARTE PARA GENERAR EL TIEMPO REAL DE INTERVALO)
 
     console.log("tatas: Consulta automática de alertas iniciada");
   }
@@ -122,7 +122,17 @@ export class NotificacionesAlertasService {
         }
       };
     });
-    await LocalNotifications.schedule({ notifications: notificaciones });
+    await LocalNotifications.schedule({ notifications: notificaciones }); //mostrar la notificacion local
+
+    //luego de mostrar la notificacion se envia la actualizacion de estado de alerta para que no se repita
+    for (let alerta of alertas) {
+      try {
+        let respuesta = await this.apiAlertas.actualizarEstadoAlerta(alerta.id);
+        console.log(`tatas: estado de alerta ${alerta.id} actualizado:`, respuesta);
+      } catch (e) {
+        console.error(`tatas: error al actualizar estado de alerta ${alerta.id}`, e);
+      }
+    }
   }
 
   //metodo para que al hacer click en la notificacion local, se navegue a google maps con la direccion indicada

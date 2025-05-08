@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environmentLocal } from '../config.local';
-import { Alerta, AlertasPendientes } from '../interfaces/alerta';
+import { Alerta, AlertasPendientes, EstadoAlertaResponse } from '../interfaces/alerta';
 import { UsuariosPorId } from '../interfaces/usuario';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 
 @Injectable({
@@ -47,6 +47,17 @@ export class ApiAlertasService {
   obtenerAlertasPendientes(idFamiliar: number): Observable<AlertasPendientes[]> {
     const ruta = `${this.baseUrl}/alertas/obtener-alertas-pendientes/${idFamiliar}`;
     return this.http.get<AlertasPendientes[]>(ruta);
+  }
+
+  //ruta para actualizar el estado de la alerta recibida a 1 (recibida o entregada)
+  //creado por david el 08/05
+  actualizarEstadoAlerta(idAlerta: number): Promise<EstadoAlertaResponse> {
+    const ruta = `${this.baseUrl}/alertas/actualizar-estado`;
+    let body = {
+      id: idAlerta,
+      estado_alerta: 1 //siempre cambiará a ese estado
+    }
+    return firstValueFrom(this.http.patch<EstadoAlertaResponse>(ruta, body));
   }
 
 }
