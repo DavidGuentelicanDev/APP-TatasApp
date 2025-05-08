@@ -13,6 +13,14 @@ export class NotificacionesAlertasService {
   tipoUsuarioLogueado: number = 0;
   private intervaloAlertas: any = null //para definir el intervalo en el cual se estarán solicitando las alertas tipo 0 a la api
 
+  //diccionario de tipos de alerta
+  private readonly TIPOS_ALERTA: { [key: number]: string } = {
+    1: "Zona Segura",
+    2: "Inactividad",
+    3: "Caída",
+    4: "SOS"
+  };
+
   constructor(
     private apiAlertas: ApiAlertasService,
     private dbOff: DbOffService
@@ -43,7 +51,7 @@ export class NotificacionesAlertasService {
 
         //se generan las notificaciones locales
         if (alertas && alertas.length > 0) {
-          this.mostrarNotificacion();
+          this.mostrarNotificacion(alertas);
         }
       },
       error: (error) => {
@@ -78,7 +86,7 @@ export class NotificacionesAlertasService {
     //luego se ejecuta cada N segundos
     this.intervaloAlertas = setInterval(() => {
       this.recibirAlertasPendientes();
-    }, 10000);
+    }, 15000);
 
     console.log("tatas: Consulta automática de alertas iniciada");
   }
@@ -94,21 +102,23 @@ export class NotificacionesAlertasService {
     }
   }
 
-  async mostrarNotificacion() {
-    await LocalNotifications.schedule({
-      notifications: [
-        {
-          title: 'Alerta recibida',
-          body: 'Esta es una notificación de prueba',
-          id: Math.floor(Date.now() % 1000000), //id unico para la prueba
-          schedule: { at: new Date(Date.now() + 1000) }, // mostrar en 1 segundo
-          sound: "",
-          attachments: undefined,
-          actionTypeId: "",
-          extra: null
-        }
-      ]
+  //metodo para mostrar el formato de alerta
+  //creado por david el 08/05
+  async mostrarNotificacion(alertas: any[]) {
+    let notificaciones = alertas.map((alerta) => {
+      let tipo = this.TIPOS_ALERTA[alerta.tipo_alerta] || "Alerta recibida";
+      return {
+        title: tipo,
+        body: `${alerta.mensaje}. Ubicación: ${alerta.ubicacion}`,
+        id: alerta.id,
+        schedule: { at: new Date(Date.now() + 500) },
+        sound: "",
+        attachments: undefined,
+        actionTypeId: "",
+        extra: null
+      };
     });
+    await LocalNotifications.schedule({ notifications: notificaciones });
   }
 
 }
