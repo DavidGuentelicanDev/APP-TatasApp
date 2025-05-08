@@ -19,9 +19,10 @@ export class ApiAlertasService {
 
   //servicio para obtener registro de alertas
   //creado por ale 04-05-2025
-  //COMENTARIO: ESTA RUTA DE LA API ESTA INCORRECTA PARA ESTO, HAY QUE HACER OTRA QUE TE MUESTRE LAS DE TIPO 1 (ENTREGADAS)
-  getAlertasPorFamiliar(idFamiliar: number): Promise<any> {
-    return this.http.get(`${this.baseUrl}/alertas/obtener-alertas-pendientes/${idFamiliar}`).toPromise();
+  //modificado por david el 08/05: se modifica la ruta a la nueva ruta para historial (estado alerta 1)
+  getAlertasPorFamiliar(idFamiliar: number): Observable<AlertasPendientes[]> {
+    const ruta = `${this.baseUrl}/alertas/obtener-alertas-historial/${idFamiliar}`;
+    return this.http.get<AlertasPendientes[]>(ruta);
   }
 
   //ruta para obtener los usuarios por id de usuario

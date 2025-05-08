@@ -1,24 +1,19 @@
 <ion-header>
   <ion-toolbar class="encabezado-registro">
-
     <!-- Botón de retroceso -->
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/login"></ion-back-button>
     </ion-buttons>
-
     <ion-title>Registro</ion-title>
-
   </ion-toolbar>
 </ion-header>
-
 
 <ion-content class="fondo-registro" fullscreen>
   <div class="contenedor-registro">
     <img src="assets/img/logo.png" alt="Logo TatasApp" class="logo-registro" />
     <h1 class="titulo-registro">TatasApp</h1>
-   
-    <form #form="ngForm" (ngSubmit)="registrarUsuario()" class="formulario-registro">
 
+    <form #form="ngForm" (ngSubmit)="registrarUsuario()" class="formulario-registro">
       <ion-item lines="none" class="input-item">
         <ion-input type="email" [(ngModel)]="usuario.mdl_correo_electronico" name="correo" placeholder="CORREO@GMAIL.COM" required></ion-input>
       </ion-item>
@@ -34,38 +29,14 @@
       <ion-item lines="none" class="input-item">
         <ion-input type="text" [(ngModel)]="usuario.mdl_apellidos" name="apellidos" placeholder="APELLIDOS" required></ion-input>
       </ion-item>
-      
-<!--
-      <div class="ion-padding">
-        Contenedor donde se insertará el autocomplete 
-        <div id="autocomplete-container" ></div>
-
-
-      Input visible que sí está conectado al modelo 
-        <ion-item lines="none" class="input-item">
-          <ion-label position="floating">Dirección completa</ion-label>
-          <ion-input
-            type="text"
-            name="direccion_texto"
-            [(ngModel)]="usuario.direccion.direccion_texto"
-            readonly
-            required>
-          </ion-input>
-        </ion-item>
-      </div> 
-      
-      -->
 
       <ion-item lines="none" class="input-item">
-        <ion-input type="text" [(ngModel)]="usuario.direccion.direccion_texto" name="adicional" placeholder="DIRECCION COMPLETA"></ion-input>
+        <input id="autocomplete" type="text" [(ngModel)]="usuario.direccion.direccion_texto" [ngModelOptions]="{standalone: true}" (input)="onDireccionInputChange($event)" />
       </ion-item>
 
- 
       <ion-item lines="none" class="input-item">
         <ion-input type="text" [(ngModel)]="usuario.direccion.adicional" name="adicional" placeholder="INFO ADICIONAL (ej. depto, block)"></ion-input>
       </ion-item>
-
-      
 
       <ion-item lines="none" class="input-item">
         <ion-input type="password" [(ngModel)]="usuario.mdl_contrasena" name="contrasena" placeholder="CONTRASEÑA" required></ion-input>

@@ -57,7 +57,7 @@ export class NotificacionesAlertasService {
         }
       },
       error: (error) => {
-        console.error("tatas: error al recibir alertas", error);
+        console.error("tatas: error al recibir alertas", JSON.stringify(error));
       }
     });
   }
@@ -88,7 +88,7 @@ export class NotificacionesAlertasService {
     //luego se ejecuta cada N segundos
     this.intervaloAlertas = setInterval(() => {
       this.recibirAlertasPendientes();
-    }, 30000); //(MODIFICAR ESTA PARTE PARA GENERAR EL TIEMPO REAL DE INTERVALO)
+    }, 120000); //(MODIFICAR ESTA PARTE PARA GENERAR EL TIEMPO REAL DE INTERVALO)
 
     console.log("tatas: Consulta automática de alertas iniciada");
   }
@@ -113,7 +113,7 @@ export class NotificacionesAlertasService {
         title: tipo,
         body: `${alerta.mensaje}. Ubicación: ${alerta.ubicacion}`,
         id: alerta.id,
-        schedule: { at: new Date(Date.now() + 500) },
+        schedule: { at: new Date(Date.now() + 1000) },
         sound: "",
         attachments: undefined,
         actionTypeId: "",

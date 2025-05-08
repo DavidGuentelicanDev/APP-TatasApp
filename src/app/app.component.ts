@@ -8,12 +8,12 @@ import { NotificacionesAlertasService } from './services/notificaciones-alertas.
 //funcion para poder cargar la api de google maps
 export function loadGoogleMaps(apiKey: string) {
   const script = document.createElement('script');
-  script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=geometry`;
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=geometry,places`;
   script.defer = true;
   script.async = true;
 
   script.onerror = () => {
-    console.error("Error al cargar Google Maps");
+    console.error("tatas Error al cargar Google Maps");
   };
 
   document.head.appendChild(script);
@@ -42,6 +42,5 @@ export class AppComponent implements OnInit {
       console.error("TATAS: Error en ngOnInit AppComponent", err);
     }
   }
-  
 
 }

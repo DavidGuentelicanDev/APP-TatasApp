@@ -1,4 +1,3 @@
-//import { NgZone } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Usuario } from 'src/app/interfaces/usuario';
@@ -10,12 +9,7 @@ import { NavigationExtras, Router, RouterModule } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
-//declaracion global para google
-// declare global {
-//   interface Window {
-//     google: any;
-//   }
-// }
+declare var google: any;
 
 
 @Component({
@@ -29,9 +23,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 })
 export class RegistrarPage implements OnInit {
 
-  //variables para la direccion
-  //  direccion: string | null = null;
-  //  placeAutocompleteElement: any = null;
+  autocomplete: any;
 
   usuario: Usuario = {
     mdl_nombres: '',
@@ -53,68 +45,44 @@ export class RegistrarPage implements OnInit {
     private api: ApiUsuariosService,
     private router: Router,
     private loadingController: LoadingController
-    //private zone: NgZone,
   ) {}
 
-  async ngOnInit() {
-  //  await this.initAutocomplete();
+  async ngOnInit() {}
+
+  ngAfterViewInit() {
+  //para la direccion recomendada de google places
+  //agregado por david el 08/05
+    const input = document.getElementById('autocomplete') as HTMLInputElement;
+
+    if (!input || !google || !google.maps || !google.maps.places) {
+      console.error('tatas Google Maps Places no está disponible todavía.');
+      return;
+    }
+
+    this.autocomplete = new google.maps.places.Autocomplete(input, {
+      types: ['geocode'], //solo direcciones
+      componentRestrictions: { country: 'cl' } //chile
+    });
+
+    this.autocomplete.addListener('place_changed', () => {
+      const place = this.autocomplete.getPlace();
+      if (!place || !place.formatted_address) {
+        console.error('tatas Dirección no válida seleccionada');
+        return;
+      }
+
+      //guardar solo la dirección como string
+      this.usuario.direccion.direccion_texto = place.formatted_address;
+      console.log('tatas Dirección seleccionada:', this.usuario.direccion.direccion_texto);
+    });
   }
 
-  // async initAutocomplete() {
-  //   try {
-  //     if (!window.google) {
-  //       throw new Error('Google Maps API no está cargada');
-  //     }
-
-  //     const { PlaceAutocompleteElement } = await window.google.maps.importLibrary("places");
-  //     const container = document.getElementById('autocomplete-container');
-
-  //     if (container) {
-  //       // Limpiar el contenedor primero
-  //       container.innerHTML = '';
-
-  //       this.placeAutocompleteElement = new PlaceAutocompleteElement({
-  //         types: ["address"],
-  //         componentRestrictions: { country: "cl" }
-  //       });
-
-  //       container.appendChild(this.placeAutocompleteElement);
-  //       console.log('Elemento autocomplete creado:', this.placeAutocompleteElement);
-  //       console.log('Contenedor:', container.innerHTML);
-  //       this.placeAutocompleteElement.addEventListener('place_changed', () => {
-  //         const place = this.placeAutocompleteElement.getPlace();
-  //         console.log('llega aca?')
-  //         if (place?.formatted_address) {
-  //           this.zone.run(() => {
-  //             this.usuario.direccion.direccion_texto = place.formatted_address;
-  //           });
-  //         }
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error('Error inicializando autocomplete:', error);
-  //     this.presentAlert('Error', 'No se pudo cargar el buscador de direcciones');
-  //   }
-  // }
-  // ngAfterViewInit() {
-  //   const element = document.getElementById('autocomplete');
-
-  //   if (element) {
-  //     console.log('✅ <gmpx-place-autocomplete> encontrado');
-
-  //     element.addEventListener('gmpx-placechange', (event: any) => {
-  //       const place = event.detail;
-  //       console.log('📦 Evento recibido:', place);
-
-  //       if (place.formatted_address) {
-  //         this.usuario.direccion.direccion_texto = place.formatted_address;
-  //         console.log('✅ Dirección guardada:', this.usuario.direccion.direccion_texto);
-  //       }
-  //     });
-  //   } else {
-  //     console.warn('⚠️ No se encontró <gmpx-place-autocomplete>');
-  //   }
-  // }
+  //para la direccion de google places
+  //agregado por david el 08/05
+  onDireccionInputChange(event: any) {
+    const value = event.target.value;
+    this.usuario.direccion.direccion_texto = value;
+  }
 
   async registrarUsuario() {
     const u = this.usuario;
