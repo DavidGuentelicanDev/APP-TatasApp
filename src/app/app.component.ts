@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { environmentLocal } from './config.local';
 import { ZonaSeguraService } from './services/zona-segura.service';
+import { NotificacionesAlertasService } from './services/notificaciones-alertas.service';
+
 
 //funcion para poder cargar la api de google maps
 export function loadGoogleMaps(apiKey: string) {
@@ -17,6 +19,7 @@ export function loadGoogleMaps(apiKey: string) {
   document.head.appendChild(script);
 }
 
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -25,7 +28,8 @@ export function loadGoogleMaps(apiKey: string) {
 export class AppComponent implements OnInit {
 
   constructor(
-    private zonaSegura: ZonaSeguraService
+    private zonaSegura: ZonaSeguraService,
+    private notificacionesAlertas: NotificacionesAlertasService
   ) {}
 
   ngOnInit() {
@@ -33,6 +37,7 @@ export class AppComponent implements OnInit {
       console.log("TATAS: AppComponent iniciado");
       loadGoogleMaps(environmentLocal.googleMapsApiKey);
       this.zonaSegura.iniciarVerificacion();
+      this.notificacionesAlertas.iniciarConsultaAutomaticaAlertas();
     } catch (err) {
       console.error("TATAS: Error en ngOnInit AppComponent", err);
     }

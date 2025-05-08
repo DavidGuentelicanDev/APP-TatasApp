@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environmentLocal } from '../config.local';
-import { Alerta } from '../interfaces/alerta';
+import { Alerta, AlertasPendientes } from '../interfaces/alerta';
 import { UsuariosPorId } from '../interfaces/usuario';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -18,6 +19,7 @@ export class ApiAlertasService {
 
   //servicio para obtener registro de alertas
   //creado por ale 04-05-2025
+  //COMENTARIO: ESTA RUTA DE LA API ESTA INCORRECTA PARA ESTO, HAY QUE HACER OTRA QUE TE MUESTRE LAS DE TIPO 1 (ENTREGADAS)
   getAlertasPorFamiliar(idFamiliar: number): Promise<any> {
     return this.http.get(`${this.baseUrl}/alertas/obtener-alertas-pendientes/${idFamiliar}`).toPromise();
   }
@@ -38,6 +40,13 @@ export class ApiAlertasService {
   //trasladado por david el 07/05
   crearAlerta(alerta: Alerta): Promise<any> {
     return this.http.post(`${this.baseUrl}/alertas/crear-alerta`, alerta).toPromise();
+  }
+
+  //ruta para consultar activamente las alertas en estado 0 (pendientes) del adulto mayor
+  //creada por david el 07/05
+  obtenerAlertasPendientes(idFamiliar: number): Observable<AlertasPendientes[]> {
+    const ruta = `${this.baseUrl}/alertas/obtener-alertas-pendientes/${idFamiliar}`;
+    return this.http.get<AlertasPendientes[]>(ruta);
   }
 
 }
