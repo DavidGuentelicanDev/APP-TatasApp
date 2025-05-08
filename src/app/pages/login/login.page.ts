@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonItem, IonInput, IonButton } from '@ionic/angular/standalone';
+import { IonContent, IonItem, IonInput, IonButton } from '@ionic/angular/standalone';
 import { ApiUsuariosService } from 'src/app/services/api-usuarios.service';
 import { lastValueFrom } from 'rxjs';
 import { UsuarioLogin, UsuarioLoginExitoso } from 'src/app/interfaces/usuario';
 import { DbOffService } from 'src/app/services/db-off.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { AlertController,NavController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonButton, IonInput, IonItem, IonContent, IonHeader, CommonModule, FormsModule],
+  imports: [IonButton, IonInput, IonItem, IonContent, CommonModule, FormsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LoginPage implements OnInit {
@@ -40,8 +40,8 @@ export class LoginPage implements OnInit {
     private apiUsuario: ApiUsuariosService,
     private dbOff: DbOffService,
     private router: Router,
-    private navCtrl: NavController, 
     private alertController: AlertController,
+    private loadingController: LoadingController
   ) { }
 
   ngOnInit() {}
@@ -73,17 +73,37 @@ export class LoginPage implements OnInit {
       return;
     }
 
+    //loading de carga
+    let loading = await this.loadingController.create({
+      message: 'Validando credenciales...',
+      spinner: 'crescent',
+      backdropDismiss: false,
+    });
+    await loading.present();
+
     //enviando los datos
     let datos = this.apiUsuario.login(this.mdl_usuario.correo, this.mdl_usuario.contrasena);
     let respuesta = await lastValueFrom(datos);
     let json_texto = JSON.stringify(respuesta);
     let json = JSON.parse(json_texto);
 
+    loading.dismiss(); //se desactiva el loading
+
     //validando respuestas
     if (json.status == "error") {
       console.log("tatas: ", json.message);
+      this.presentAlert("Error", "Usuario y/o contraseña incorrectos. Intenta nuevamente");
+      return;
     } else if (json.status == "success") {
       console.log("tatas: ", json.message);
+
+      //alerta de login exitoso
+      let alertaExito = await this.alertController.create({
+        header: "Éxito",
+        message: "Ingresando a la App...",
+        backdropDismiss: false
+      });
+      await alertaExito.present();
 
       //guardar datos en la lista
       this.db_loginExitoso.id_usuario = json.contenido.id_usuario;
@@ -92,7 +112,10 @@ export class LoginPage implements OnInit {
       this.db_loginExitoso.token = json.contenido.token;
 
       this.guardarDatosUsuario(); //guardando los datos en tabla usuario
-      this.navegarPrincipal(); //navegar a la pagina principal
+      setTimeout(() => {
+        alertaExito.dismiss(); //desaparece alert de login exitoso antes de navegar al principal
+        this.navegarPrincipal(); //navegar a la pagina principal
+      }, 750);
     }
   }
 
