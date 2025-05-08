@@ -1,28 +1,27 @@
-// Servicio para verificar zona segura y enviar alerta push si se sale de ella
-// Creado por Ale - actualizado 04/05/2025 con debug
 import { Injectable } from '@angular/core';
 import { Geolocation } from '@capacitor/geolocation';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import { DbOffService } from '../services/db-off.service';
-import { ApiUsuariosService } from '../services/api-usuarios.service';
-import { HttpClient } from '@angular/common/http';
 import { environmentLocal } from '../config.local';
+import { ApiAlertasService } from './api-alertas.service';
+import { UsuariosPorId } from '../interfaces/usuario';
 
 
 declare var google: any;
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ZonaSeguraService {
+
   private id_usuario: number = 0;
   private direccionUsuario: string = '';
-  private baseUrl = environmentLocal.URLbase;
+  private key: string = environmentLocal.googleMapsApiKey
 
   constructor(
     private dbOff: DbOffService,
-    private apiUsuario: ApiUsuariosService,
-    private http: HttpClient
+    private apiAlertas: ApiAlertasService
   ) { }
 
   iniciarVerificacion() {
@@ -50,11 +49,12 @@ export class ZonaSeguraService {
       this.id_usuario = usuario.id_usuario;
       console.log("TATAS: ",this.id_usuario)
 
-      const datosUsuario: any = await this.http
-        .get(`${this.baseUrl}/usuarios/${this.id_usuario}`)
-        .toPromise();
+      const datosUsuario: UsuariosPorId | undefined = await this.apiAlertas.obtenerUsuariosPorId(this.id_usuario);
         console.log("TATAS: Respuesta de API:", JSON.stringify(datosUsuario));
 
+      if (!datosUsuario?.direccion_rel?.direccion_texto) {
+        throw new Error("TATAS: Dirección no encontrada");
+      }
 
       this.direccionUsuario = datosUsuario?.direccion_rel?.direccion_texto;
       if (!this.direccionUsuario) throw new Error("TATAS: Dirección no encontrada");
@@ -82,7 +82,7 @@ export class ZonaSeguraService {
   }
 
   async obtenerCoordenadasDesdeDireccion(direccion: string): Promise<{ lat: number, lng: number }> {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(direccion)}&key=${environmentLocal.googleMapsApiKey}`;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(direccion)}&key=${this.key}`;
     const res = await fetch(url);
     const data = await res.json();
 
@@ -122,7 +122,7 @@ export class ZonaSeguraService {
     };
 
     try {
-      const res = await this.http.post(`${this.baseUrl}/alertas/crear-alerta`, alerta).toPromise();
+      const res = await await this.apiAlertas.crearAlerta(alerta);
       console.log("TATAS: Alerta enviada correctamente:", res);
     } catch (err) {
       console.error('TATAS: Error al enviar alerta al backend:', err);

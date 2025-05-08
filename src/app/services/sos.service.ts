@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { environmentLocal } from '../config.local';
 import { DbOffService } from './db-off.service';
-import { HttpClient } from '@angular/common/http';
-import { ApiUsuariosService } from './api-usuarios.service';
 import { Geolocation } from '@capacitor/geolocation';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
+import { ApiAlertasService } from './api-alertas.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +10,10 @@ import { TextToSpeech } from '@capacitor-community/text-to-speech';
 export class SosService {
 
   private id_usuario: number = 0;
-  private direccionUsuario: string = '';
-  private baseUrl = environmentLocal.URLbase;
 
   constructor(
     private dbOff: DbOffService,
-    private http: HttpClient,
-    private apiUsuario: ApiUsuariosService
+    private apiAlertas: ApiAlertasService
   ) { }
 
   //SERVICIO PARA REGISTRAR ALERTA DEL BOTON SOS
@@ -43,7 +38,7 @@ export class SosService {
         tipo_alerta: 4 
       };
 
-      await this.http.post(`${this.baseUrl}/alertas/crear-alerta`, alerta).toPromise();
+      await this.apiAlertas.crearAlerta(alerta);
       await this.hablar('Alerta SOS activada');
 
     } catch (err) {
@@ -58,11 +53,5 @@ export class SosService {
       rate: 1.0
     });
   }
-
-  //servicio para obtener registro de alertas
-  //creado por ale 04-05-2025
-  // getAlertasPorFamiliar(idFamiliar: number): Promise<any> {
-  //   return this.http.get(`${this.baseUrl}/alertas/crear-alerta/${idFamiliar}`).toPromise();
-  // }
 
 }

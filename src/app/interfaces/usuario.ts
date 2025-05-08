@@ -37,3 +37,15 @@ export interface UsuarioLogueado {
     nombres: string
     tipo_usuario: number
 }
+
+//interfaz para obtener los datos de usuario por id
+//creado por david el 07/05
+export interface UsuariosPorId {
+    nombres: string
+    apellidos: string
+    fecha_nacimiento: Date
+    correo: string
+    tipo_usuario: number
+    foto_perfil: string
+    direccion_rel: Direccion
+}
