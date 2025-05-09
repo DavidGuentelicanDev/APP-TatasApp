@@ -53,6 +53,10 @@ export const routes: Routes = [
     path: 'configuracion',
     loadComponent: () => import('./pages/configuracion/configuracion.page').then( m => m.ConfiguracionPage)
   },
+  {
+    path: 'foto-perfil',
+    loadComponent: () => import('./pages/foto-perfil/foto-perfil.page').then( m => m.FotoPerfilPage)
+  },
 
 
 ];
