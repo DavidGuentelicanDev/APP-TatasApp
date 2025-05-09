@@ -59,6 +59,11 @@ export class PrincipalPage implements OnInit {
     this.router.navigate(["mapa-prueba"]);
   }
 
+  //navegar a la pagina de configuracion
+  navegarConfig() {
+    this.router.navigate(["configuracion"]);
+  }
+
   async generarSOS() {
     await this.sos.enviarAlertaSOSDesdeBoton();
   }
