@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent } from '@ionic/angular/standalone';
 import { DbOffService } from 'src/app/services/db-off.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { ApiPruebaService } from 'src/app/services/api-prueba.service';
@@ -11,12 +11,11 @@ import { ApiPruebaService } from 'src/app/services/api-prueba.service';
   templateUrl: './splash.page.html',
   styleUrls: ['./splash.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonContent, CommonModule, FormsModule]
 })
 export class SplashPage implements OnInit {
 
-  //token registrado
-  tokenRegistrado: string = "";
+  tokenRegistrado: string = ""; //token registrado
 
   constructor(
     private dbOff: DbOffService,
