@@ -49,3 +49,10 @@ export interface UsuariosPorId {
     foto_perfil: string
     direccion_rel: Direccion
 }
+
+//interfaz para actualizar foto de perfil
+//creado por david el 09/05
+export interface FotoPerfil {
+    id: number;
+    foto_perfil: string;
+}
