@@ -45,7 +45,8 @@ export const routes: Routes = [
   {
     path: 'agregar-familiar',
     loadComponent: () => import('./pages/agregar-familiar/agregar-familiar.page').then( m => m.AgregarFamiliarPage)
-  },  {
+  },
+  {
     path: 'registro-alarmas',
     loadComponent: () => import('./pages/registro-alarmas/registro-alarmas.page').then( m => m.RegistroAlarmasPage)
   },

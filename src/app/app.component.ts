@@ -3,6 +3,7 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { environmentLocal } from './config.local';
 import { ZonaSeguraService } from './services/zona-segura.service';
 import { NotificacionesAlertasService } from './services/notificaciones-alertas.service';
+import { SplashScreen } from '@capacitor/splash-screen';
 
 
 //funcion para poder cargar la api de google maps
@@ -30,7 +31,9 @@ export class AppComponent implements OnInit {
   constructor(
     private zonaSegura: ZonaSeguraService,
     private notificacionesAlertas: NotificacionesAlertasService
-  ) {}
+  ) {
+    this.mostrarSplash(); //para que el splash aparezca al iniciar
+  }
 
   ngOnInit() {
     try {
@@ -41,6 +44,15 @@ export class AppComponent implements OnInit {
     } catch (err) {
       console.error("TATAS: Error en ngOnInit AppComponent", err);
     }
+  }
+
+  //funcion para mostrar el splash screen
+  //creada por david el 09/05
+  async mostrarSplash() {
+    await SplashScreen.show({
+      autoHide: true,
+      showDuration: 3000
+    });
   }
 
 }
