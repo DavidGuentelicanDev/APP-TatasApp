@@ -61,6 +61,10 @@ export const routes: Routes = [
     path: 'editar-datos-usuario',
     loadComponent: () => import('./pages/editar-datos-usuario/editar-datos-usuario.page').then( m => m.EditarDatosUsuarioPage)
   },
+  {
+    path: 'editar-correo',
+    loadComponent: () => import('./pages/editar-correo/editar-correo.page').then( m => m.EditarCorreoPage)
+  },
 
 
 ];

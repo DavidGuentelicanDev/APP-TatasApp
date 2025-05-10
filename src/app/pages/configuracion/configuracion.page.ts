@@ -75,6 +75,10 @@ export class ConfiguracionPage implements OnInit {
     this.router.navigate(["editar-datos-usuario"]);
   }
 
+  navegarEditarCorreo() {
+    this.router.navigate(["editar-correo"]);
+  }
+
   //metodo para cerrar sesion
   //creado por david el 23/04
   async cerrarSesion() {
