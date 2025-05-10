@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton } from '@ionic/angular/standalone';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
+import { DbOffService } from 'src/app/services/db-off.service';
+import { ApiConfigService } from 'src/app/services/api-config.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-configuracion',
@@ -13,11 +16,55 @@ import { Router } from '@angular/router';
 })
 export class ConfiguracionPage implements OnInit {
 
+  @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
+  previewImage: string | null = null;
+
+  idUsuarioLogueado: number = 0;
+  fotoPerfilBase64: string | null = null; //para guardar la foto de perfil base64
+
   constructor(
-    private router: Router
+    private router: Router,
+    private dbOff: DbOffService,
+    private apiConfig: ApiConfigService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.obtenerIdUsuarioLogueado();
+    await this.obtenerFotoPerfil();
+  }
+
+  async ionViewWillEnter() {
+    await this.obtenerIdUsuarioLogueado();
+    await this.obtenerFotoPerfil();
+  }
+
+  //obtener id de usuario registrado al momento de entrar a la pagina
+  //creado por andrea el 30/04
+  async obtenerIdUsuarioLogueado() {
+    let usuario = await this.dbOff.obtenerDatosUsuarioLogueado();
+    if (usuario) {
+      this.idUsuarioLogueado = usuario.id_usuario; //asignar id de usuario registrado
+      console.log("tatas: ID USUARIO REGISTRADO: ", this.idUsuarioLogueado);
+    } else {
+      console.log("tatas: NO HAY USUARIO REGISTRADO");
+      let extras: NavigationExtras = {replaceUrl: true};
+      this.router.navigate(["login"], extras);
+    }
+  }
+
+  //obtener foto de perfil
+  //creado por david el 09/05
+  async obtenerFotoPerfil() {
+    try {
+      let data = this.apiConfig.obtenerFotoPerfil(this.idUsuarioLogueado);
+      let respuesta = await lastValueFrom(data);
+      let json_texto = JSON.stringify(respuesta);
+      let json = JSON.parse(json_texto);
+      this.fotoPerfilBase64 = json.foto_perfil;
+      console.log("tatas foto perfil: ", this.fotoPerfilBase64);
+    } catch (e) {
+      console.error("tatas error al obtener la foto de perfil:", e);
+    }
   }
 
   navegarFotoPerfil() {

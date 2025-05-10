@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonButton } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonButton, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import { DbOffService } from 'src/app/services/db-off.service';
 import { ApiConfigService } from 'src/app/services/api-config.service';
 import { NavigationExtras, Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { lastValueFrom } from 'rxjs';
   templateUrl: './foto-perfil.page.html',
   styleUrls: ['./foto-perfil.page.scss'],
   standalone: true,
-  imports: [IonButton, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonBackButton, IonButtons, IonButton, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 export class FotoPerfilPage implements OnInit {
 
@@ -21,6 +21,7 @@ export class FotoPerfilPage implements OnInit {
   previewImage: string | null = null;
 
   idUsuarioLogueado: number = 0;
+  fotoPerfilBase64: string | null = null; //para guardar la foto de perfil base64
 
   constructor(
     private dbOff: DbOffService,
@@ -28,8 +29,14 @@ export class FotoPerfilPage implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {
-    this.obtenerIdUsuarioLogueado();
+  async ngOnInit() {
+    await this.obtenerIdUsuarioLogueado();
+    await this.obtenerFotoPerfil();
+  }
+
+  async ionViewWillEnter() {
+    await this.obtenerIdUsuarioLogueado();
+    await this.obtenerFotoPerfil();
   }
 
   //para poder ir a buscar la imagen a los documentos del celular
@@ -88,8 +95,24 @@ export class FotoPerfilPage implements OnInit {
       let json_texto = JSON.stringify(respuesta);
       let json = JSON.parse(json_texto);
       console.log("tatas estado: " + json.status + ", mensaje: " + json.message);
+      await this.obtenerFotoPerfil();
     } catch (e) {
       console.error("tatas error al editar la foto de perfil:", e);
+    }
+  }
+
+  //obtener foto de perfil
+  //creado por david el 09/05
+  async obtenerFotoPerfil() {
+    try {
+      let data = this.apiConfig.obtenerFotoPerfil(this.idUsuarioLogueado);
+      let respuesta = await lastValueFrom(data);
+      let json_texto = JSON.stringify(respuesta);
+      let json = JSON.parse(json_texto);
+      this.fotoPerfilBase64 = json.foto_perfil;
+      console.log("tatas foto perfil: ", this.fotoPerfilBase64);
+    } catch (e) {
+      console.error("tatas error al obtener la foto de perfil:", e);
     }
   }
 

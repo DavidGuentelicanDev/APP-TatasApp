@@ -1,5 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="ion-margin-top">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Editar Foto de Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -7,7 +10,7 @@
 <ion-content [fullscreen]="true">
   <div class="profile-container ion-padding">
     <div class="profile-wrapper">
-      <img [src]="previewImage || 'assets/img/sin-foto-perfil.webp'" alt="Foto de perfil" class="profile-image" />
+      <img [src]="previewImage || fotoPerfilBase64 || 'assets/img/sin-foto-perfil.webp'" alt="Foto de perfil" class="profile-image" />
       <ion-button class="edit-button" fill="clear" size="small" (click)="triggerFileInput()">
         <ion-icon slot="icon-only" name="pencil"></ion-icon>
       </ion-button>

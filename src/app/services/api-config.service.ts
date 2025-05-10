@@ -21,4 +21,10 @@ export class ApiConfigService {
     return this.http.patch(this.baseUrl + "/usuarios/editar-foto-perfil", fotoPerfil).pipe();
   }
 
+  //ruta para obtener la foto de perfil guardada
+  //creado por david el 09/05
+  obtenerFotoPerfil(idUsuario: number) {
+    return this.http.get(`${this.baseUrl}/usuarios/foto-perfil/${idUsuario}`).pipe();
+  }
+
 }

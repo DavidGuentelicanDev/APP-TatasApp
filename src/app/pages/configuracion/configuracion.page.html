@@ -1,11 +1,16 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar class="ion-margin-top">
     <ion-title>Configuración</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button expand="block" class="ion-padding" (click)="navegarFotoPerfil()">Agregar Foto de Perfil</ion-button>
+  <div class="profile-container ion-padding">
+    <div class="profile-wrapper">
+      <img [src]="previewImage || fotoPerfilBase64 || 'assets/img/sin-foto-perfil.webp'" alt="Foto de perfil" class="profile-image" />
+    </div>
+  </div>
+  <ion-button expand="block" class="ion-padding" (click)="navegarFotoPerfil()">Editar Foto de Perfil</ion-button>
   <ion-button expand="block" class="ion-padding">Editar Datos Personales</ion-button>
   <ion-button expand="block" class="ion-padding">Cambiar Correo Electrónico</ion-button>
   <ion-button expand="block" class="ion-padding">Cambiar Contraseña</ion-button>
