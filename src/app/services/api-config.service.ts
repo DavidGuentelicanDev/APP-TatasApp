@@ -33,4 +33,9 @@ export class ApiConfigService {
     return this.http.patch(this.baseUrl + "/usuarios/editar-datos", datosUsuario).pipe();
   }
 
+  //obtener datos de usuario para mostrar por id
+  obtenerDatosUsuario(idUsuario: number) {
+    return this.http.get(`${this.baseUrl}/usuarios/${idUsuario}`).pipe();
+  }
+
 }
