@@ -7,6 +7,7 @@ import { DbOffService } from 'src/app/services/db-off.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { DatosUsuarioEditar } from 'src/app/interfaces/usuario';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 
 @Component({
@@ -36,7 +37,9 @@ export class EditarDatosUsuarioPage implements OnInit {
   constructor(
     private apiConfig: ApiConfigService,
     private dbOff: DbOffService,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController,
+    private loadingController: LoadingController
   ) { }
 
   async ngOnInit() {
@@ -65,7 +68,6 @@ export class EditarDatosUsuarioPage implements OnInit {
     let respuesta = await lastValueFrom(datos);
     let json_texto = JSON.stringify(respuesta);
     let json = JSON.parse(json_texto);
-    console.log("tatas", this.datosUsuario);
 
     this.datosUsuario.nombres = json.nombres;
     this.datosUsuario.apellidos = json.apellidos;
@@ -75,11 +77,54 @@ export class EditarDatosUsuarioPage implements OnInit {
     this.datosUsuario.direccion.adicional = json.direccion_rel.adicional;
   }
 
+  //guardar los datos editados
+  //creado por david el 09/05
   async guardarCambios() {
+    //validacion campos vacios
+    if (
+      !this.datosUsuario.nombres ||
+      !this.datosUsuario.apellidos ||
+      !this.datosUsuario.fecha_nacimiento ||
+      !this.datosUsuario.telefono ||
+      !this.datosUsuario.direccion.direccion_texto
+    ) {
+      console.log("tatas CAMPOS VACIOS");
+      await this.alertaValidaciones("Error", "Tienes un campo vacío. Debes completar todos los campos (excepto Adicional)");
+      return;
+    }
+
+    //validacion fecha nacimiento no puede ser fecha futura
+    let fechaNacimiento = new Date(this.datosUsuario.fecha_nacimiento);
+    let hoy = new Date();
+    //fechas formateadas
+    let fechaNacimientoStr = this.formatearFecha(fechaNacimiento);
+    let hoyStr = this.formatearFecha(hoy);
+    //comparar fechas
+    if (fechaNacimientoStr > hoyStr) {
+      console.log("tatas FECHA DE NACIMIENTO FUTURA NO VÁLIDA");
+      await this.alertaValidaciones("Error", "No puedes seleccionar una fecha futura como fecha de nacimiento");
+      return;
+    }
+
+    //validacion formato telefono
+    const telefonoRegex = /^9\d{8}$/;
+    if (!telefonoRegex.test(this.datosUsuario.telefono)) {
+      console.log("tatas FORMATO DE TELEFONO NO VÁLIDO");
+      await this.alertaValidaciones("Error", "El teléfono debe tener formato 9XXXXXXXX");
+      return;
+    }
+
+    //loading
+    let loading = await this.loadingController.create({
+      message: 'Guardando los cambios...',
+      spinner: 'crescent',
+      backdropDismiss: false,
+    });
+    await loading.present();
+
     try {
       //convertir la fecha a formato yyyy-mm-dd
-      let fecha = new Date(this.datosUsuario.fecha_nacimiento);
-      let fechaFormateada = fecha.toISOString().split('T')[0]; //formato "yyyy-mm-dd"
+      let fechaFormateada = fechaNacimiento.toISOString().split('T')[0]; //formato "yyyy-mm-dd"
 
       let datosParaEnviar = {
         id: this.idUsuarioLogueado,
@@ -94,11 +139,49 @@ export class EditarDatosUsuarioPage implements OnInit {
       let respuesta = await lastValueFrom(resultado);
       let json_texto = JSON.stringify(respuesta);
       let json = JSON.parse(json_texto);
-      console.log("tatas", json.status);
       console.log("tatas", json.message);
+      await loading.dismiss();
+
+      //alerta para edicion de datos correcto
+      if (json.status === "success") {
+        let alertaExito = await this.alertController.create({
+          header: "Éxito",
+          message: "Datos guardados y actualizados correctamente",
+          backdropDismiss: false
+        });
+        await alertaExito.present();
+
+        setTimeout(async() => {
+          await alertaExito.dismiss();
+          await this.router.navigate(["configuracion"], {replaceUrl: true});
+        }, 1500);
+      } else {
+        await loading.dismiss();
+        await this.alertaValidaciones("Error", json.message);
+        return;
+      }
     } catch (e) {
       console.error("tatas: Error al actualizar datos", JSON.stringify(e));
+      await loading.dismiss();
+      await this.alertaValidaciones("Error", "Hubo un problema al guardar los datos. Intenta nuevamente más tarde");
     }
+  }
+
+  //funcion para formatear fecha
+  //creado por david el 10/05
+  formatearFecha(fecha: Date): string {
+    return fecha.toISOString().split('T')[0];
+  }
+
+  //alert para validaciones
+  //creado por david el 10/05
+  async alertaValidaciones(titulo: string, mensaje: string) {
+    let alerta = await this.alertController.create({
+      header: titulo,
+      message: mensaje,
+      buttons: ["OK"]
+    });
+    await alerta.present();
   }
 
 }
