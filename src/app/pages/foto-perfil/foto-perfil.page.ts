@@ -105,23 +105,29 @@ export class FotoPerfilPage implements OnInit {
       let json_texto = JSON.stringify(respuesta);
       let json = JSON.parse(json_texto);
       console.log("tatas estado: " + json.status + ", mensaje: " + json.message);
-      await this.obtenerFotoPerfil();
 
-      let alertaExito = await this.alertController.create({
-        header: "Éxito",
-        message: "Tu nueva foto de perfil fue guardada con éxito",
-        backdropDismiss: false
-      });
-      await alertaExito.present();
+      if (json.status === "success") {
+        let alertaExito = await this.alertController.create({
+          header: "Éxito",
+          message: "Tu nueva foto de perfil fue guardada con éxito",
+          backdropDismiss: false
+        });
+        await alertaExito.present();
+        await this.obtenerFotoPerfil();
 
-      setTimeout(async () => {
-        await alertaExito.dismiss();
-        this.router.navigate(["configuracion"], {replaceUrl: true});
-      }, 1500);
+        setTimeout(async () => {
+          await alertaExito.dismiss();
+          this.router.navigate(["configuracion"], {replaceUrl: true});
+        }, 1500);
+      } else {
+        await this.alertFotoPerfil("Error", json.message);
+        return;
+      }
     } catch (e) {
       console.error("tatas error al editar la foto de perfil:", e);
+      await this.alertFotoPerfil("Error", "Hubo un error al guardar tu foto. Intenta más tarde");
+      return;
     }
-
     await loading.dismiss();
   }
 
@@ -138,6 +144,16 @@ export class FotoPerfilPage implements OnInit {
     } catch (e) {
       console.error("tatas error al obtener la foto de perfil:", e);
     }
+  }
+
+  //alerta predefinida
+  async alertFotoPerfil(titulo: string, mensaje: string) {
+    const alerta = await this.alertController.create({
+      header: titulo,
+      message: mensaje,
+      buttons: ["OK"]
+    });
+    await alerta.present();
   }
 
 }
