@@ -20,6 +20,14 @@
     </ion-item>
 
     <ion-item>
+      <input id="autocomplete" type="text"
+        [(ngModel)]="datosUsuario.direccion.direccion_texto"
+        [ngModelOptions]="{standalone: true}"
+        (input)="onDireccionInputChange($event)"
+        placeholder="Dirección Completa" />
+    </ion-item>
+
+    <ion-item>
       <ion-label position="floating">Fecha Nacimiento</ion-label>
       <ion-datetime
         presentation="date"
@@ -34,15 +42,10 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Dirección</ion-label>
-      <ion-input [(ngModel)]="datosUsuario.direccion.direccion_texto" name="direccion_texto"></ion-input>
-    </ion-item>
-
-    <ion-item>
       <ion-label position="floating">Información Adicional</ion-label>
       <ion-input [(ngModel)]="datosUsuario.direccion.adicional" name="adicional"></ion-input>
     </ion-item>
 
-    <ion-button expand="full" type="submit">Guardar Cambios</ion-button>
+    <ion-button expand="block" type="submit" class="ion-padding">Guardar Cambios</ion-button>
   </form>
 </ion-content>

@@ -10,6 +10,9 @@ import { DatosUsuarioEditar } from 'src/app/interfaces/usuario';
 import { AlertController, LoadingController } from '@ionic/angular';
 
 
+declare var google: any;
+
+
 @Component({
   selector: 'app-editar-datos-usuario',
   templateUrl: './editar-datos-usuario.page.html',
@@ -34,6 +37,8 @@ export class EditarDatosUsuarioPage implements OnInit {
     }
   };
 
+  autocomplete: any; //para el autocompletado de la direccion
+
   constructor(
     private apiConfig: ApiConfigService,
     private dbOff: DbOffService,
@@ -45,6 +50,38 @@ export class EditarDatosUsuarioPage implements OnInit {
   async ngOnInit() {
     await this.obtenerIdUsuarioLogueado();
     await this.obtenerDatosUsuario();
+  }
+
+  //para la direccion con google places
+  //creado por david el 10/05
+  ngAfterViewInit() {
+    const input = document.getElementById('autocomplete') as HTMLInputElement;
+
+    if (!input || !google || !google.maps || !google.maps.places) {
+      console.error('tatas Google Maps Places no está disponible todavía.');
+      return;
+    }
+
+    this.autocomplete = new google.maps.places.Autocomplete(input, {
+      types: ['geocode'],
+      componentRestrictions: { country: 'cl' }
+    });
+
+    this.autocomplete.addListener('place_changed', () => {
+      const place = this.autocomplete.getPlace();
+      if (!place || !place.formatted_address) {
+        console.error('tatas Dirección no válida seleccionada');
+        return;
+      }
+
+      this.datosUsuario.direccion.direccion_texto = place.formatted_address;
+      console.log('tatas Dirección seleccionada:', place.formatted_address);
+    });
+  }
+
+  onDireccionInputChange(event: any) {
+    const value = event.target.value;
+    this.datosUsuario.direccion.direccion_texto = value;
   }
 
   //obtener id de usuario registrado al momento de entrar a la pagina
