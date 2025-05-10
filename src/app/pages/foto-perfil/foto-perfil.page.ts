@@ -7,6 +7,7 @@ import { ApiConfigService } from 'src/app/services/api-config.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { FotoPerfil } from 'src/app/interfaces/usuario';
 import { lastValueFrom } from 'rxjs';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-foto-perfil',
@@ -26,7 +27,9 @@ export class FotoPerfilPage implements OnInit {
   constructor(
     private dbOff: DbOffService,
     private apiConfig: ApiConfigService,
-    private router: Router
+    private router: Router,
+    private loadingController: LoadingController,
+    private alertController: AlertController
   ) { }
 
   async ngOnInit() {
@@ -89,6 +92,13 @@ export class FotoPerfilPage implements OnInit {
       foto_perfil: this.previewImage
     }
 
+    let loading = await this.loadingController.create({
+      message: 'Guardando tu foto...',
+      spinner: 'crescent',
+      backdropDismiss: false
+    });
+    await loading.present();
+
     try {
       let data = this.apiConfig.editarFotoPerfil(payload);
       let respuesta = await lastValueFrom(data);
@@ -96,9 +106,23 @@ export class FotoPerfilPage implements OnInit {
       let json = JSON.parse(json_texto);
       console.log("tatas estado: " + json.status + ", mensaje: " + json.message);
       await this.obtenerFotoPerfil();
+
+      let alertaExito = await this.alertController.create({
+        header: "Éxito",
+        message: "Tu nueva foto de perfil fue guardada con éxito",
+        backdropDismiss: false
+      });
+      await alertaExito.present();
+
+      setTimeout(async () => {
+        await alertaExito.dismiss();
+        this.router.navigate(["configuracion"], {replaceUrl: true});
+      }, 1500);
     } catch (e) {
       console.error("tatas error al editar la foto de perfil:", e);
     }
+
+    await loading.dismiss();
   }
 
   //obtener foto de perfil
