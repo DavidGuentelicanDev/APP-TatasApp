@@ -24,20 +24,6 @@ export class PrincipalPage implements OnInit {
   ngOnInit() {
   }
 
-  //borrar registros en la tabla local usuario
-  //creado por david el 23/04
-  async borrarUsuarioLogueado() {
-    await this.dbOff.borrarUsuarioLogueado();
-  }
-
-  //metodo para cerrar sesion
-  //creado por david el 23/04
-  async cerrarSesion() {
-    let extras: NavigationExtras = {replaceUrl: true}
-    await this.borrarUsuarioLogueado(); //borrar los datos de la tabla
-    this.router.navigate(["login"], extras);
-  }
-
   //navegar a la pagina de eventos
   //creado por andrea el 30/04
   navegarEventos() {

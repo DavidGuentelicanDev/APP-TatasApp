@@ -75,4 +75,18 @@ export class ConfiguracionPage implements OnInit {
     this.router.navigate(["editar-datos-usuario"]);
   }
 
+  //metodo para cerrar sesion
+  //creado por david el 23/04
+  async cerrarSesion() {
+    let extras: NavigationExtras = {replaceUrl: true}
+    await this.borrarUsuarioLogueado(); //borrar los datos de la tabla
+    this.router.navigate(["login"], extras);
+  }
+
+  //borrar registros en la tabla local usuario
+  //creado por david el 23/04
+  async borrarUsuarioLogueado() {
+    await this.dbOff.borrarUsuarioLogueado();
+  }
+
 }
