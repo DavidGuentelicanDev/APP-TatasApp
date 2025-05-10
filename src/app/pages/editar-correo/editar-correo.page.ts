@@ -1,23 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { ApiConfigService } from 'src/app/services/api-config.service';
 import { DbOffService } from 'src/app/services/db-off.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
+import { IonicModule } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-editar-correo',
   templateUrl: './editar-correo.page.html',
   styleUrls: ['./editar-correo.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule]
 })
 export class EditarCorreoPage implements OnInit {
 
   idUsuarioLogueado: number = 0;
   correoUsuario: string = "";
+  correoIngresado: string = "";
+  correoValido: boolean | null = null; //null = aun no validado, true/false segun resultado
 
   constructor(
     private apiConfig: ApiConfigService,
@@ -45,7 +48,7 @@ export class EditarCorreoPage implements OnInit {
   }
 
   //funcion para obtener correo de usuario
-  //creado por david el 09/05
+  //creado por david el 10/05
   async obtenerDatosUsuario() {
     let datos = this.apiConfig.obtenerDatosUsuario(this.idUsuarioLogueado);
     let respuesta = await lastValueFrom(datos);
@@ -54,6 +57,12 @@ export class EditarCorreoPage implements OnInit {
     console.log("tatas", json.correo);
 
     this.correoUsuario = json.correo;
+  }
+
+  //para validar el correo
+  //creado por david el 10/05
+  validarCorreoIngresado() {
+    this.correoValido = this.correoIngresado.trim().toLowerCase() === this.correoUsuario.trim().toLowerCase();
   }
 
 }
