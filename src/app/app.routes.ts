@@ -57,6 +57,10 @@ export const routes: Routes = [
     path: 'foto-perfil',
     loadComponent: () => import('./pages/foto-perfil/foto-perfil.page').then( m => m.FotoPerfilPage)
   },
+  {
+    path: 'editar-datos-usuario',
+    loadComponent: () => import('./pages/editar-datos-usuario/editar-datos-usuario.page').then( m => m.EditarDatosUsuarioPage)
+  },
 
 
 ];

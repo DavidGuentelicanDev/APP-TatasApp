@@ -71,4 +71,8 @@ export class ConfiguracionPage implements OnInit {
     this.router.navigate(["foto-perfil"]);
   }
 
+  navegarEditarDatosUsuario() {
+    this.router.navigate(["editar-datos-usuario"]);
+  }
+
 }

@@ -56,3 +56,14 @@ export interface FotoPerfil {
     id: number;
     foto_perfil: string;
 }
+
+//interfaz para editar datos de usuario
+//creado por david el 09/05
+export interface DatosUsuarioEditar {
+    id: number;
+    nombres: string;
+    apellidos: string;
+    fecha_nacimiento: Date;
+    telefono: string
+    direccion: Direccion
+}

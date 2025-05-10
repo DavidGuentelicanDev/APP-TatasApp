@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FotoPerfil } from '../interfaces/usuario';
+import { DatosUsuarioEditar, FotoPerfil } from '../interfaces/usuario';
 import { environmentLocal } from '../config.local';
 
 
@@ -25,6 +25,12 @@ export class ApiConfigService {
   //creado por david el 09/05
   obtenerFotoPerfil(idUsuario: number) {
     return this.http.get(`${this.baseUrl}/usuarios/foto-perfil/${idUsuario}`).pipe();
+  }
+
+  //ruta para editar datos de usuario (nombres, apellidos, fecha nacimiento, telefono, direccion completa)
+  //creado por david el 09/05
+  editarDatosUsuario(datosUsuario: DatosUsuarioEditar) {
+    return this.http.patch(this.baseUrl + "/usuarios/editar-datos", datosUsuario).pipe();
   }
 
 }
