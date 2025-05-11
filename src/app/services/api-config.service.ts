@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CorreoEditar, DatosUsuarioEditar, FotoPerfil } from '../interfaces/usuario';
+import { ContrasenaEditar, CorreoEditar, DatosUsuarioEditar, FotoPerfil } from '../interfaces/usuario';
 import { environmentLocal } from '../config.local';
 
 
@@ -43,6 +43,12 @@ export class ApiConfigService {
   //creado por david el 10/05
   editarCorreo(correoUsuario: CorreoEditar) {
     return this.http.patch(this.baseUrl + "/usuarios/editar-correo", correoUsuario).pipe();
+  }
+
+  //ruta para editar la contraseña
+  //creado por david el 11/05
+  editarContrasena(contrasenaUsuario: ContrasenaEditar) {
+    return this.http.patch(this.baseUrl + "/usuarios/editar-contrasena", contrasenaUsuario).pipe();
   }
 
 }

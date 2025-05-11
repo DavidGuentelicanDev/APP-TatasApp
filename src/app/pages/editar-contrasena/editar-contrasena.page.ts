@@ -22,6 +22,8 @@ export class EditarContrasenaPage implements OnInit {
   correoUsuario: string = "";
   correoIngresado: string = "";
   correoValido: boolean | null = null;
+  nuevaContrasena: string = "";
+  confirmarContrasena: string = "";
 
   constructor(
     private apiConfig: ApiConfigService,
