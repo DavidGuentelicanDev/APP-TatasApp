@@ -86,6 +86,19 @@ export class EditarCorreoPage implements OnInit {
       return;
     }
 
+    const formatoCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formatoCorreo.test(this.nuevoCorreo)) {
+      console.log("tatas FORMATO DE CORREO NO VÁLIDO");
+      return;
+    }
+
+    if (this.nuevoCorreo != this.correoConfirmar) {
+      console.log("tatas LOS CORREOS NO COINCIDEN");
+      return;
+    }
+
+    //falta validar que el correo no este registrado previamente
+
     try {
       let datos = this.apiConfig.editarCorreo(this.datosCorreo);
       let respuesta = await lastValueFrom(datos);
