@@ -168,9 +168,18 @@ export class RegistrarPage implements OnInit {
       }, 1000);
 
     } catch (error: any) {
+      await loading.dismiss();
       // 🟡 Captura mensaje de error detallado desde la API
-      console.error('tatas Error completo:', error);
-      this.presentAlert("Error", "No se pudo registrar tu usuario. Inténtelo nuevamente más tarde")
+      console.error('tatas Error completo:', JSON.stringify(error));
+      console.error("tatas ERROR ESPECIFICO", JSON.stringify(error?.error));
+
+      if (error?.error?.message === "Correo ya registrado") {
+        this.presentAlert("Error", `${error?.error?.message}, debes ingresar otro correo electrónico`);
+      } else if (error?.error?.message === "Telefono ya registrado") {
+        this.presentAlert("Error", `${error?.error?.message}, debes ingresar otro teléfono`);
+      } else {
+        this.presentAlert("Error", "No se pudo registrar tu usuario. Inténtelo nuevamente más tarde");
+      }
     }
   }
 

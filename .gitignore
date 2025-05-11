@@ -71,6 +71,3 @@ Thumbs.db
 
 # Secrets and environment variables
 config.local.ts
-
-# Carpeta media
-media/
