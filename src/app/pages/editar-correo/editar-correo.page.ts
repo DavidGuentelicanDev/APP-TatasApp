@@ -6,6 +6,7 @@ import { DbOffService } from 'src/app/services/db-off.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { IonicModule } from '@ionic/angular';
+import { CorreoEditar } from 'src/app/interfaces/usuario';
 
 
 @Component({
@@ -21,6 +22,13 @@ export class EditarCorreoPage implements OnInit {
   correoUsuario: string = "";
   correoIngresado: string = "";
   correoValido: boolean | null = null; //null = aun no validado, true/false segun resultado
+  nuevoCorreo: string = "";
+  correoConfirmar: string = "";
+
+  datosCorreo: CorreoEditar = {
+    id: 0,
+    correo: ""
+  };
 
   constructor(
     private apiConfig: ApiConfigService,
@@ -54,15 +62,39 @@ export class EditarCorreoPage implements OnInit {
     let respuesta = await lastValueFrom(datos);
     let json_texto = JSON.stringify(respuesta);
     let json = JSON.parse(json_texto);
-    console.log("tatas", json.correo);
 
     this.correoUsuario = json.correo;
+    console.log("tatas CORREO REGISTRADO:", this.correoUsuario);
   }
 
   //para validar el correo
   //creado por david el 10/05
   validarCorreoIngresado() {
     this.correoValido = this.correoIngresado.trim().toLowerCase() === this.correoUsuario.trim().toLowerCase();
+  }
+
+  //metodo para editar correo
+  //creado por david el 10/05
+  async editarCorreo() {
+    this.datosCorreo = {
+      id: this.idUsuarioLogueado,
+      correo: this.nuevoCorreo
+    };
+
+    if (!this.nuevoCorreo || !this.correoConfirmar) {
+      console.log("tatas TODOS LOS CAMPOS SON OBLIGATORIOS");
+      return;
+    }
+
+    try {
+      let datos = this.apiConfig.editarCorreo(this.datosCorreo);
+      let respuesta = await lastValueFrom(datos);
+      let json_texto = JSON.stringify(respuesta);
+      let json = JSON.parse(json_texto);
+      console.log("tatas", json.message);
+    } catch (e) {
+      console.error("tatas ERROR AL INTENTAR EDITAR EL CORREO: ", JSON.stringify(e));
+    }
   }
 
 }

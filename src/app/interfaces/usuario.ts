@@ -66,3 +66,10 @@ export interface DatosUsuarioEditar {
     telefono: string
     direccion: Direccion
 }
+
+//interfaz para editar correo
+//creado por david el 10/05
+export interface CorreoEditar {
+    id: number;
+    correo: string;
+}

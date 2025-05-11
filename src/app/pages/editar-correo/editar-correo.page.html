@@ -16,11 +16,29 @@
 
   <ion-button expand="block" class="ion-padding" (click)="validarCorreoIngresado()">Verificar</ion-button>
 
-  <ion-text color="danger" *ngIf="correoValido === false">
+  <ion-text color="danger" *ngIf="correoValido === false" class="ion-padding">
     <p>El correo ingresado no coincide con el registrado.</p>
   </ion-text>
 
-  <ion-text color="success" *ngIf="correoValido === true">
-    <p>Correo verificado correctamente.</p>
-  </ion-text>
+  <div *ngIf="correoValido === true">
+    <ion-item class="ion-margin-top">
+      <ion-label position="floating">Nuevo Correo Electrónico</ion-label>
+      <ion-input
+        [(ngModel)]="nuevoCorreo"
+        type="email"
+        required
+      ></ion-input>
+    </ion-item>
+
+    <ion-item class="ion-margin-top">
+      <ion-label position="floating">Confirmar Correo Electrónico</ion-label>
+      <ion-input
+        [(ngModel)]="correoConfirmar"
+        type="email"
+        required
+      ></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" class="ion-padding" (click)="editarCorreo()">Guardar</ion-button>
+  </div>
 </ion-content>

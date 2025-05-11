@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DatosUsuarioEditar, FotoPerfil } from '../interfaces/usuario';
+import { CorreoEditar, DatosUsuarioEditar, FotoPerfil } from '../interfaces/usuario';
 import { environmentLocal } from '../config.local';
 
 
@@ -33,9 +33,16 @@ export class ApiConfigService {
     return this.http.patch(this.baseUrl + "/usuarios/editar-datos", datosUsuario).pipe();
   }
 
-  //obtener datos de usuario para mostrar por id
+  //ruta para obtener datos de usuario para mostrar por id
+  //creado por david el 09/05
   obtenerDatosUsuario(idUsuario: number) {
     return this.http.get(`${this.baseUrl}/usuarios/${idUsuario}`).pipe();
+  }
+
+  //ruta para editar el correo
+  //creado por david el 10/05
+  editarCorreo(correoUsuario: CorreoEditar) {
+    return this.http.patch(this.baseUrl + "/usuarios/editar-correo", correoUsuario).pipe();
   }
 
 }
