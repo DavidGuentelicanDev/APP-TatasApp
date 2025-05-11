@@ -73,3 +73,10 @@ export interface CorreoEditar {
     id: number;
     correo: string;
 }
+
+//interfaz para editar contraseña
+//creado por david el 11/05
+export interface ContrasenaEditar {
+    id: number;
+    contrasena: string;
+}

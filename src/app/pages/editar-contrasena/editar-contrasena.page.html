@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Editar Correo Electrónico</ion-title>
+    <ion-title>Cambiar Contraseña</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -16,7 +16,6 @@
       required
     ></ion-input>
   </ion-item>
-
   <ion-button expand="block" class="ion-padding" (click)="validarCorreoIngresado()">Verificar</ion-button>
 
   <ion-text color="danger" *ngIf="correoValido === false" class="ion-padding">
@@ -28,7 +27,7 @@
       <p>El correo ingresado coincide con el registrado.</p>
     </ion-text>
 
-    <ion-item class="ion-margin-top">
+    <!--<ion-item class="ion-margin-top">
       <ion-label position="floating">Nuevo Correo Electrónico</ion-label>
       <ion-input
         [(ngModel)]="nuevoCorreo"
@@ -46,6 +45,6 @@
       ></ion-input>
     </ion-item>
 
-    <ion-button expand="block" class="ion-padding" (click)="editarCorreo()">Guardar</ion-button>
+    <ion-button expand="block" class="ion-padding" (click)="editarCorreo()">Guardar</ion-button>-->
   </div>
 </ion-content>

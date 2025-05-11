@@ -79,6 +79,10 @@ export class ConfiguracionPage implements OnInit {
     this.router.navigate(["editar-correo"]);
   }
 
+  navegarEditarContrasena() {
+    this.router.navigate(["editar-contrasena"]);
+  }
+
   //metodo para cerrar sesion
   //creado por david el 23/04
   async cerrarSesion() {
