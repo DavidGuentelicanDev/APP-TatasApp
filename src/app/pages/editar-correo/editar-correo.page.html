@@ -1,5 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="ion-margin-top">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Editar Correo Electrónico</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -21,6 +24,9 @@
   </ion-text>
 
   <div *ngIf="correoValido === true">
+    <ion-text color="success" class="ion-padding">
+      <p>El correo ingresado no coincide con el registrado.</p>
+    </ion-text>
     <ion-item class="ion-margin-top">
       <ion-label position="floating">Nuevo Correo Electrónico</ion-label>
       <ion-input

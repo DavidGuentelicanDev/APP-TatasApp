@@ -10,6 +10,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AlertController, LoadingController } from '@ionic/angular';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
