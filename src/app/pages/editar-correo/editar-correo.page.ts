@@ -138,14 +138,14 @@ export class EditarCorreoPage implements OnInit {
 
         let alertaExito = await this.alertController.create({
           header: "Éxito",
-          message: `Correo Electrónico actualizado correctamente a ${this.nuevoCorreo}`,
+          message: "Correo Electrónico actualizado correctamente. Debes volver a ingresar tus credenciales",
           backdropDismiss: false
         });
         await alertaExito.present();
 
         setTimeout(async () => {
           await alertaExito.dismiss();
-          this.router.navigate(["configuracion"], {replaceUrl: true});
+          await this.cerrarSesion();
         }, 1500);
       } else {
         console.log("tatas", json.message);
@@ -166,6 +166,20 @@ export class EditarCorreoPage implements OnInit {
       buttons: ["OK"]
     });
     await alerta.present();
+  }
+
+  //metodo para cerrar sesion
+  //creado por david el 23/04
+  async cerrarSesion() {
+    let extras: NavigationExtras = {replaceUrl: true}
+    await this.borrarUsuarioLogueado(); //borrar los datos de la tabla
+    this.router.navigate(["login"], extras);
+  }
+
+  //borrar registros en la tabla local usuario
+  //creado por david el 23/04
+  async borrarUsuarioLogueado() {
+    await this.dbOff.borrarUsuarioLogueado();
   }
 
 }
