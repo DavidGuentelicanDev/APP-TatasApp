@@ -1,3 +1,5 @@
+//creado por Ale - Mostrar registro alarma adulto mayor asociado
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AlertController } from '@ionic/angular';
@@ -32,21 +34,41 @@ export class RegistroAlarmasPage implements OnInit {
   ) {}
 
   async ngOnInit() {
+    console.log("TATAS: Iniciando ngOnInit...");
+
     try {
       const usuario = await this.dbOffService.obtenerDatosUsuarioLogueado();
+      console.log("TATAS: Usuario obtenido desde DB local:", usuario);
 
-      if (usuario?.tipo_usuario !== 2) {
-        this.mostrarAlerta('Acceso restringido', 'Esta página solo está disponible para usuarios familiares.');
+      if (!usuario) {
+        console.warn("TATAS: No se encontró usuario logueado.");
+        await this.mostrarAlerta('Error', 'No se encontró usuario logueado.');
         this.cargando = false;
         return;
       }
-      const res: any = await this.apiAlertas.getAlertasPorFamiliar(usuario.id_usuario);
-      this.alertas = res.data || [];
+
+      if (usuario.tipo_usuario !== 2) {
+        console.warn("TATAS: Usuario no es familiar. Tipo:", usuario.tipo_usuario);
+        await this.mostrarAlerta('Acceso restringido', 'Esta página solo está disponible para usuarios familiares.');
+        this.cargando = false;
+        return;
+      }
+
+      const idFamiliar = Number(usuario.id_usuario);
+      console.log("TATAS: ID del familiar:", idFamiliar);
+
+      const res: any = await this.apiAlertas.getAlertasPorFamiliar(idFamiliar);
+      console.log("TATAS: Respuesta de alertas recibida:", res);
+
+      this.alertas = res || [];
+      console.log("TATAS: Alertas asignadas al array:", this.alertas);
+
     } catch (err) {
-      console.error('Error al cargar alertas:', err);
-      this.mostrarAlerta('Error', 'No se pudieron cargar las alertas.');
+      console.error("TATAS: Error al cargar alertas:", err);
+      await this.mostrarAlerta('Error', 'No se pudieron cargar las alertas.');
     } finally {
       this.cargando = false;
+      console.log("TATAS: Finalizó ngOnInit, cargando:", this.cargando);
     }
   }
 
@@ -61,6 +83,6 @@ export class RegistroAlarmasPage implements OnInit {
       buttons: ['OK']
     });
     await alerta.present();
+    console.log("TATAS: Alerta mostrada:", titulo, mensaje);
   }
-
 }

@@ -19,29 +19,27 @@ export class ApiAlertasService {
 
   //servicio para obtener registro de alertas
   //creado por ale 04-05-2025
-  //modificado por david el 08/05: se modifica la ruta a la nueva ruta para historial (estado alerta 1)
-  getAlertasPorFamiliar(idFamiliar: number): Observable<AlertasPendientes[]> {
-    const ruta = `${this.baseUrl}/alertas/obtener-alertas-historial/${idFamiliar}`;
-    return this.http.get<AlertasPendientes[]>(ruta);
+  getAlertasPorFamiliar(idFamiliar: number): Promise<any> {
+    return this.http.get(`${this.baseUrl}/alertas/obtener-alertas-historial/${idFamiliar}`).toPromise();
   }
 
-  //ruta para obtener los usuarios por id de usuario
-  //creado por ale el 04/05
-  //trasladado por david el 07/05
-  obtenerUsuariosPorId(idUsuario: number): Promise<UsuariosPorId | undefined> {
-    return this.http.get<UsuariosPorId>(`${this.baseUrl}/usuarios/${idUsuario}`).toPromise()
-    .catch(err => {
-      console.error("tatas Error al obtener usuario:", err);
-      return undefined;
-    });
-  }
+  // //ruta para obtener los usuarios por id de usuario
+  // //creado por ale el 04/05
+  // //trasladado por david el 07/05
+  // obtenerUsuariosPorId(idUsuario: number): Promise<UsuariosPorId | undefined> {
+  //   return this.http.get<UsuariosPorId>(`${this.baseUrl}/usuarios/${idUsuario}`).toPromise()
+  //   .catch(err => {
+  //     console.error("tatas Error al obtener usuario:", err);
+  //     return undefined;
+  //   });
+  // }
 
-  //ruta para crear alertas
-  //creado por ale el 04/05
-  //trasladado por david el 07/05
-  crearAlerta(alerta: Alerta): Promise<any> {
-    return this.http.post(`${this.baseUrl}/alertas/crear-alerta`, alerta).toPromise();
-  }
+  // //ruta para crear alertas
+  // //creado por ale el 04/05
+  // //trasladado por david el 07/05
+  // crearAlerta(alerta: Alerta): Promise<any> {
+  //   return this.http.post(`${this.baseUrl}/alertas/crear-alerta`, alerta).toPromise();
+  // }
 
   //ruta para consultar activamente las alertas en estado 0 (pendientes) del adulto mayor
   //creada por david el 07/05

@@ -1,0 +1,53 @@
+<ion-content class="ion-padding">
+  <div class="ion-text-center">
+    <br>
+    <br>
+    <img src="https://i.postimg.cc/mkJwwBMp/Chat-GPT-Image-11-may-2025-19-27-46.png" alt="Logo TatasApp" style="width: 300px;" />
+  </div>
+
+  <ion-grid class="botones-grid">
+    <ion-row>
+      <ion-col size="6">
+        <ion-button
+          expand="block"
+          class="boton-cuadro boton-sos"
+          (click)="generarSOS()"
+        >
+        <ion-icon name="notifications-circle-outline" class="icono-sos"></ion-icon>
+          <div>SOS</div>
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button
+          expand="block"
+          class="boton-cuadro boton-eventos"
+          (click)="navegarEventos()"
+        >
+          <ion-icon name="calendar" class="icono-eventos"></ion-icon>
+          <div>EVENTOS</div>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button
+          expand="block"
+          class="boton-cuadro boton-familiar"
+          (click)="navegarFamiliares()"
+        >
+          <ion-icon name="person-add" class="icono-familiar"></ion-icon>
+          <div>REGISTRAR FAMILIAR</div>
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button
+          expand="block"
+          class="boton-cuadro boton-config"
+        >
+          <ion-icon name="settings" class="icono-config"></ion-icon>
+          <div>CONFIGURACIÓN</div>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

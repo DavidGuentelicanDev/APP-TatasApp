@@ -77,7 +77,11 @@ export const routes: Routes = [
   {
     path: 'modificar-evento/:id',
     loadComponent: () => import('./pages/modificar-evento/modificar-evento.page').then( m => m.ModificarEventoPage)
+  },  {
+    path: 'home-tata',
+    loadComponent: () => import('./pages/home-tata/home-tata.page').then( m => m.HomeTataPage)
   },
+
 
 
 ];
