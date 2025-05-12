@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton} from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar} from '@ionic/angular/standalone';
 import {NavigationExtras, Router } from '@angular/router';
 import { Evento } from 'src/app/interfaces/evento';
 import { ApiEventoService } from 'src/app/services/api-evento.service';
@@ -13,17 +13,14 @@ import { provideIonicAngular } from '@ionic/angular/standalone';
 import esLocale from '@fullcalendar/core/locales/es';
 import { DbOffService } from 'src/app/services/db-off.service';
 
-
-
 @Component({
-  selector: 'app-eventos',
-  templateUrl: './eventos.page.html',
-  styleUrls: ['./eventos.page.scss'],
+  selector: 'app-evento-familiar',
+  templateUrl: './evento-familiar.page.html',
+  styleUrls: ['./evento-familiar.page.scss'],
   standalone: true,
-  imports: [IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, FullCalendarModule  ]
-
-})  
-export class EventosPage implements OnInit {
+  imports: [ IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, FullCalendarModule  ]
+})
+export class EventoFamiliarPage implements OnInit {
   calendarOptions: any = {
     plugins: [dayGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
@@ -53,7 +50,9 @@ export class EventosPage implements OnInit {
     private dbOff: DbOffService,
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.ionViewWillEnter()
+  }
 
   //obtener id de usuario registrado al momento de entrar a la pagina
   //creado por andrea el 30/04
@@ -89,7 +88,7 @@ export class EventosPage implements OnInit {
       return;
     }
   
-    this.apiEventoService.obtenerEventos(usuarioId).subscribe((eventos: any[]) => {
+    this.apiEventoService.obtenerEventosPorFamiliar(usuarioId).subscribe((eventos: any[]) => {
       console.log('tatasa Eventos cargados desde API:', JSON.stringify(eventos, null, 2));
   
       const eventosConvertidos = eventos.map(evento => {
@@ -145,32 +144,6 @@ export class EventosPage implements OnInit {
         {
           text: 'Cerrar',
           role: 'cancel'
-        },
-        {
-          text: 'Eliminar',
-          role: 'destructive',
-          handler: () => {
-            this.confirmarEliminacion(id);
-          }
-        },
-        {
-          text: 'Editar evento',
-          handler: () => {
-            console.log("tatas: Navegando a la edición del evento con id:", id);
-            this.router.navigate(['/modificar-evento', id], {
-              state: {
-                evento: {
-                  id,
-                  usuarioId: evento.extendedProps?.usuarioId ?? 0,
-                  nombre: titulo,
-                  descripcion: descripcion,
-                  fechaHora: evento.start.toISOString(),
-                  tipoEvento: tipoEvento
-                }
-              }
-            });
-
-          }
         }
       ]
     });
@@ -197,36 +170,5 @@ export class EventosPage implements OnInit {
       default: return '🔘';
     }
   }
-  //navegar a la pagina para crear eventos
-  //creado por david el 01/05
-  navegarCrearEvento() {
-    this.router.navigate(["crear-evento"]);
-  }
-  
-
-  async confirmarEliminacion(id: number) {
-    const confirm = await this.alertController.create({
-      header: '¿Eliminar evento?',
-      message: 'Esta acción no se puede deshacer.',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Eliminar',
-          role: 'destructive',
-          handler: () => {
-            this.apiEventoService.eliminarEvento(id).subscribe(() => {
-              this.ionViewWillEnter(); // recargar calendario
-            });
-          }
-        }
-      ]
-    });
-  
-    await confirm.present();
-  }
-  
 
 }

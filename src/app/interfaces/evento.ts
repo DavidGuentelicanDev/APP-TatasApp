@@ -3,6 +3,7 @@
 
 //interfaz para crear eventos
 export interface Evento {
+    id?: number;
     usuarioId: number;
     nombre: string;
     descripcion: string;

@@ -1,15 +1,14 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Crear Evento</ion-title>
+    <ion-title>Editar Evento</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="fondo-registro">
   <div class="contenedor-registro">
 
+    <form (ngSubmit)="modificarEvento()">
 
-    <form (ngSubmit)="crearEvento()">
-      
       <ion-item class="input-item">
         <ion-input
           placeholder="Nombre del evento"
@@ -51,8 +50,9 @@
         </ion-select>
       </ion-item>
 
-      <ion-button expand="block" type="submit" class="boton-siguiente">Crear Evento</ion-button>
-
+      <ion-button expand="block" type="submit" class="boton-siguiente">
+        Guardar Cambios
+      </ion-button>
     </form>
   </div>
 </ion-content>

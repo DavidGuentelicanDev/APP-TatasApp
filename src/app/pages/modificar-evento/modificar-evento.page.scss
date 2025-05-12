@@ -63,12 +63,9 @@ ion-select::part(native) {
     text-align: center;
     color: #007d8c !important;
 }
-
-.titulo-registro {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    color: #007d8c;
-    margin-bottom: 20px;
+.contenedor-registro {
+    width: 90%;
+    max-width: 400px;
+    margin: auto;
+    padding-bottom: 32px;
   }
-  

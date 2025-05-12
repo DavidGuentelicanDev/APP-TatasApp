@@ -36,6 +36,11 @@ export class PrincipalPage implements OnInit {
     this.router.navigate(["familiares"]);
   }
 
+  //creado por andrea
+  navegarEventosFamiliar() {
+    this.router.navigate(["evento-familiar"]);
+  }
+
   //navegar zona segura (temporal)
   navegarZonaSegura() {
     this.router.navigate(["registro-alarmas"]);

@@ -49,7 +49,8 @@ export const routes: Routes = [
   {
     path: 'registro-alarmas',
     loadComponent: () => import('./pages/registro-alarmas/registro-alarmas.page').then( m => m.RegistroAlarmasPage)
-  },  {
+  },
+  {
     path: 'configuracion',
     loadComponent: () => import('./pages/configuracion/configuracion.page').then( m => m.ConfiguracionPage)
   },
@@ -68,6 +69,14 @@ export const routes: Routes = [
   {
     path: 'editar-contrasena',
     loadComponent: () => import('./pages/editar-contrasena/editar-contrasena.page').then( m => m.EditarContrasenaPage)
+  },
+  {
+    path: 'evento-familiar',
+    loadComponent: () => import('./pages/evento-familiar/evento-familiar.page').then( m => m.EventoFamiliarPage)
+  },
+  {
+    path: 'modificar-evento/:id',
+    loadComponent: () => import('./pages/modificar-evento/modificar-evento.page').then( m => m.ModificarEventoPage)
   },
 
 
