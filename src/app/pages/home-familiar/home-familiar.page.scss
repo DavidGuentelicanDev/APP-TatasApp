@@ -1,0 +1,81 @@
+/* Fondo y layout */
+:host {
+    --background: #00a6d6;
+  }
+  
+  ion-content {
+    --background: #00a6d6;
+    color: white;
+  }
+  
+  .titulo {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .botones-grid {
+    margin-top: 30px;
+    text-align: center;
+  }
+  
+  .boton-cuadro {
+    height: 100px;
+    border-radius: 16px;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  /* Botón SOS */
+  ion-button.boton-sos {
+    --background: #f44336;
+    --background-activated: #e53935;
+    --background-hover: #ef5350;
+    color: rgb(255, 255, 255);
+  }
+  
+  /* Botón EVENTOS */
+  ion-button.boton-eventos {
+    --background: #ffc107;
+    --background-activated: #ffb300;
+    --background-hover: #ffca28;
+    color: rgb(255, 255, 255);
+  }
+  
+  /* Botón REGISTRAR FAMILIAR */
+  ion-button.boton-familiar {
+    --background: #8e44ad;
+    --background-activated: #7d3c98;
+    --background-hover: #9b59b6;
+    color: rgb(255, 255, 255);
+  }
+  
+  /* Botón CONFIGURACIÓN */
+  ion-button.boton-config {
+    --background: #2196f3;
+    --background-activated: #1e88e5;
+    --background-hover: #42a5f5;
+    color: rgb(255, 255, 255);
+  }
+  
+  /* Iconos con color específico */
+  .icono-sos {
+    color: white;
+  }
+  
+  .icono-eventos {
+    color: rgb(255, 255, 255);
+  }
+  
+  /* Tamaño íconos */
+  ion-icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+  

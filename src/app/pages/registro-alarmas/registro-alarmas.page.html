@@ -1,13 +1,33 @@
-<ion-list *ngIf="alertas.length > 0">
-  <ion-item *ngFor="let alerta of alertas">
-    <ion-label>
-      <h3>{{ tipoAlertas[alerta.tipo_alerta] || 'Alerta' }}</h3>
-      <p>{{ alerta.mensaje }}</p>
-      <p *ngIf="alerta.ubicacion">
-        <strong>Ubicación:</strong>
-        <a [href]="alerta.ubicacion" target="_blank">{{ alerta.ubicacion }}</a>
-      </p>
-      <p><strong>Fecha:</strong> {{ alerta.fecha_hora| date:'short' }}</p>
-    </ion-label>
-  </ion-item>
-</ion-list>
+
+
+<ion-content class="ion-padding">
+  <!-- Contenedor centrado con separación adicional del header -->
+   <br>
+   <br>
+   <ion-label class="titulo">Registro Alerta Tatas</ion-label>
+   <br>
+   <br>
+  <div class="center-wrapper">
+    <ion-list *ngIf="alertas.length > 0">
+      <ion-item *ngFor="let alerta of alertas">
+        <ion-label>
+          <h3>{{ tipoAlertas[alerta.tipo_alerta] || 'Alerta' }}</h3>
+          <p>{{ alerta.mensaje }}</p>
+          <p *ngIf="alerta.ubicacion">
+            <strong>Ubicación:</strong>
+            <a [href]="alerta.ubicacion" target="_blank">{{ alerta.ubicacion }}</a>
+          </p>
+          <p><strong>Fecha:</strong> {{ alerta.fecha_hora | date:'short' }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- Infinite Scroll -->
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="crescent"
+      loadingText="Cargando alertas...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

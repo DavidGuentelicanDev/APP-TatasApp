@@ -22,9 +22,9 @@ import { SosService } from 'src/app/services/sos.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-home-tata',
-  templateUrl: './home-tata.page.html',
-  styleUrls: ['./home-tata.page.scss'],
+  selector: 'app-home-familiar',
+  templateUrl: './home-familiar.page.html',
+  styleUrls: ['./home-familiar.page.scss'],
   standalone: true,
   imports: [
     IonLabel,
@@ -44,7 +44,7 @@ import { Router } from '@angular/router';
     FormsModule
   ]
 })
-export class HomeTataPage implements OnInit {
+export class HomeFamiliarPage implements OnInit {
 
   constructor(
     private dbOff: DbOffService,
@@ -54,22 +54,20 @@ export class HomeTataPage implements OnInit {
 
   ngOnInit() {}
 
-  // Navegar a la página de eventos
+  // Navegar a la página de eventos-familiar
   navegarEventos() {
-    this.router.navigate(["eventos"]);
+    this.router.navigate(["evento-familiar"]);
   }
 
-  // Navegar a la página de familiares
-  navegarFamiliares() {
-    this.router.navigate(["familiares"]);
+  
+  navegarHistorial() {
+    this.router.navigate(["registro-alarmas"]);
   }
 
-  // Enviar alerta SOS
-  async generarSOS() {
-    await this.sos.enviarAlertaSOSDesdeBoton();
+  // Navegar a configuración
+  async navegarConfig() { 
+    this.router.navigate(["configuracion"])
   }
 
-// Navegar a configuración
-  async navegarConfig() {
-    this.router.navigate(["configuracion"])}
+
 }

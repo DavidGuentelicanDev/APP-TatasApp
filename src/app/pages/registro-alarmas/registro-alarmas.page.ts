@@ -1,11 +1,18 @@
-//creado por Ale - Mostrar registro alarma adulto mayor asociado
+// creado por Ale - Mostrar registro alarma adulto mayor asociado
 
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AlertController } from '@ionic/angular';
+import {
+  AlertController,
+  IonContent,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonItem,
+  IonLabel,
+  IonList
+} from '@ionic/angular/standalone';
 import { ZonaSeguraService } from '../../services/zona-segura.service';
 import { DbOffService } from '../../services/db-off.service';
-import { IonList, IonItem, IonLabel } from "@ionic/angular/standalone";
 import { SosService } from 'src/app/services/sos.service';
 import { ApiAlertasService } from 'src/app/services/api-alertas.service';
 
@@ -13,7 +20,15 @@ import { ApiAlertasService } from 'src/app/services/api-alertas.service';
   selector: 'app-registro-alarmas',
   templateUrl: './registro-alarmas.page.html',
   styleUrls: ['./registro-alarmas.page.scss'],
-  imports: [IonItem, IonList, IonLabel, CommonModule],
+  imports: [
+    IonContent,
+    IonItem,
+    IonList,
+    IonLabel,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
+    CommonModule
+  ]
 })
 export class RegistroAlarmasPage implements OnInit {
   alertas: any[] = [];
@@ -84,5 +99,23 @@ export class RegistroAlarmasPage implements OnInit {
     });
     await alerta.present();
     console.log("TATAS: Alerta mostrada:", titulo, mensaje);
+  }
+
+  // Función para el Infinite Scroll
+  loadData(event: any) {
+    console.log("Cargando más datos...", event);
+    // Aquí implementa la lógica para cargar más datos
+    setTimeout(() => {
+      // Ejemplo: Agregar más elementos al array alertas (reemplaza este ejemplo con tu lógica real)
+      // this.alertas = this.alertas.concat(nuevasAlertas);
+
+      // Finaliza la operación del infinite scroll
+      event.target.complete();
+
+      // Si ya no hay más datos, deshabilita el infinite scroll:
+      // event.target.disabled = true;
+
+      console.log("Carga completada.");
+    }, 1000);
   }
 }

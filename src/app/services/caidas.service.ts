@@ -1,4 +1,4 @@
-//creado por Ale 08-09-2025
+//creado por Ale 08-09-2025 - actualizado 11-05-2025 con validación por tipo_usuario
 
 import { Injectable } from '@angular/core';
 import { DeviceMotion, DeviceMotionAccelerationData } from '@awesome-cordova-plugins/device-motion/ngx';
@@ -37,6 +37,11 @@ export class DeteccionCaidasService {
         return;
       }
 
+      if (usuario.tipo_usuario !== 1) {
+        console.warn("TATAS: Usuario no es adulto mayor. Tipo:", usuario.tipo_usuario);
+        return;
+      }
+
       this.id_usuario = usuario.id_usuario;
 
       const data: DeviceMotionAccelerationData = await this.deviceMotion.getCurrentAcceleration();
@@ -59,19 +64,19 @@ export class DeteccionCaidasService {
     try {
       const position = await Geolocation.getCurrentPosition();
       const url = `https://www.google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`;
-  
+
       const alerta = {
         usuario_id: this.id_usuario,
         ubicacion: url,
         mensaje: mensaje,
         tipo_alerta: 3
       };
-  
+
       console.log("ALE: Enviando alerta con ubicación:", JSON.stringify(alerta));
-  
+
       const res = await this.http.post(`${this.baseUrl}/alertas/crear-alerta`, alerta).toPromise();
       console.log("ALE: Alerta por caída enviada correctamente:", res);
-  
+
     } catch (err: any) {
       try {
         const detalle = typeof err.error === 'object' ? JSON.stringify(err.error) : err.error;

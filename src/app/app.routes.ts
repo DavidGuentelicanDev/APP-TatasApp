@@ -81,6 +81,10 @@ export const routes: Routes = [
     path: 'home-tata',
     loadComponent: () => import('./pages/home-tata/home-tata.page').then( m => m.HomeTataPage)
   },
+  {
+    path: 'home-familiar',
+    loadComponent: () => import('./pages/home-familiar/home-familiar.page').then( m => m.HomeFamiliarPage)
+  },
 
 
 

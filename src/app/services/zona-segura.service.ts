@@ -1,5 +1,6 @@
 // Servicio para verificar zona segura y enviar alerta push si se sale de ella
-// Creado por Ale - actualizado 04/05/2025 con debug
+// Creado por Ale - actualizado 11/05/2025 con validación por tipo_usuario
+
 import { Injectable } from '@angular/core';
 import { Geolocation } from '@capacitor/geolocation';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
@@ -7,7 +8,6 @@ import { DbOffService } from '../services/db-off.service';
 import { ApiUsuariosService } from '../services/api-usuarios.service';
 import { HttpClient } from '@angular/common/http';
 import { environmentLocal } from '../config.local';
-
 
 declare var google: any;
 
@@ -47,14 +47,19 @@ export class ZonaSeguraService {
         return;
       }
 
+      // Validación por tipo de usuario
+      if (usuario.tipo_usuario !== 1) {
+        console.warn("TATAS: Usuario no es adulto mayor. Tipo:", usuario.tipo_usuario);
+        return;
+      }
+
       this.id_usuario = usuario.id_usuario;
-      console.log("TATAS: ",this.id_usuario)
+      console.log("TATAS: ID usuario:", this.id_usuario);
 
       const datosUsuario: any = await this.http
         .get(`${this.baseUrl}/usuarios/${this.id_usuario}`)
         .toPromise();
-        console.log("TATAS: Respuesta de API:", JSON.stringify(datosUsuario));
-
+      console.log("TATAS: Respuesta de API:", JSON.stringify(datosUsuario));
 
       this.direccionUsuario = datosUsuario?.direccion_rel?.direccion_texto;
       if (!this.direccionUsuario) throw new Error("TATAS: Dirección no encontrada");

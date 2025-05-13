@@ -49,9 +49,20 @@ export class LoginPage implements OnInit {
 
   //navegar a principal
   //creado por david el 22/04
-  navegarPrincipal() {
+  async navegarPrincipal() {
     let extras: NavigationExtras = {replaceUrl: true};
-    this.router.navigate(["principal"], extras);
+    const usuario = await this.dbOff.obtenerDatosUsuarioLogueado();
+      if (!usuario) {
+        console.error("TATAS: Usuario no encontrado en DB local.");
+        return;
+      }
+
+      if (usuario.tipo_usuario == 1) {
+        console.warn("TATAS: Usuario no es adulto mayor. Tipo:", usuario.tipo_usuario);
+        this.router.navigate(["home-tata"],extras)        
+      }else{
+        this.router.navigate(["home-familiar"],extras)
+      }
   }
 
   //funcion para guardar los datos de usuario
