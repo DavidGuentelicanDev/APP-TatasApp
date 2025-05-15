@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonList, IonItem, IonIcon, IonLabel } from '@ionic/angular/standalone';
 import { DbOffService } from 'src/app/services/db-off.service';
 import { NavigationExtras, Router } from '@angular/router';
-import { SosService } from 'src/app/services/sos.service';
+import { SosService } from 'src/app/services/alertas/sos.service';
 
 @Component({
   selector: 'app-principal',

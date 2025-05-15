@@ -11,10 +11,10 @@ import {
   IonLabel,
   IonList
 } from '@ionic/angular/standalone';
-import { ZonaSeguraService } from '../../services/zona-segura.service';
+import { ZonaSeguraService } from '../../services/alertas/zona-segura.service';
 import { DbOffService } from '../../services/db-off.service';
-import { SosService } from 'src/app/services/sos.service';
-import { ApiAlertasService } from 'src/app/services/api-alertas.service';
+import { SosService } from 'src/app/services/alertas/sos.service';
+import { ApiAlertasService } from 'src/app/services/api/api-alertas.service';
 
 @Component({
   selector: 'app-registro-alarmas',

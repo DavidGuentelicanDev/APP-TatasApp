@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { environmentLocal } from './config.local';
-import { ZonaSeguraService } from './services/zona-segura.service';
-import { NotificacionesAlertasService } from './services/notificaciones-alertas.service';
+import { ZonaSeguraService } from './services/alertas/zona-segura.service';
+import { NotificacionesAlertasService } from './services/alertas/notificaciones-alertas.service';
 import { SplashScreen } from '@capacitor/splash-screen';
 
 
