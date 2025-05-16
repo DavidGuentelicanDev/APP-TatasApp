@@ -15,8 +15,6 @@ import { ApiPruebaService } from 'src/app/services/api/api-prueba.service';
 })
 export class SplashPage implements OnInit {
 
-  tokenRegistrado: string = ""; //token registrado
-
   constructor(
     private dbOff: DbOffService,
     private router: Router,
@@ -27,48 +25,43 @@ export class SplashPage implements OnInit {
     //ruta raiz de la api
     this.apiPrueba.obtenerRutaRaiz().subscribe({
       next: (res) => console.log('tatas: Respuesta de API:', JSON.stringify(res, null, 2)),
-      error: (err) => console.log('tatas: Error detallado:', JSON.stringify(err, null, 2))
+      error: (err) => console.error('tatas: Error detallado:', JSON.stringify(err, null, 2))
     });
 
     this.dbOff.abrirDB(); //habilita la base de datos
     this.dbOff.crearTablaUsuario(); //crea o valida tabla usuario
-    await this.validarToken(); //llamar validacion de token, modificado por david el 01/05
+    await this.validarDBOff(); //llamar validacion de token y tipo usuario | modificado por david el 16/05
   }
 
-  //funcion para navegar al login
-  //creada por david el 23/04
-  navegarLogin() {
-    let extras: NavigationExtras = {replaceUrl: true};
-    this.router.navigate(["login"], extras);
-  }
-
-  //funcion para navegar al principal
-  //creada por david el 23/04
-  navegarPrincipal() {
-    let extras: NavigationExtras = {replaceUrl: true};
-    this.router.navigate(["principal"], extras);
+  //funcion para navegar a la pagina indicada, reemplaza a las anteriores
+  //creada por david el 16/05
+  navegarA(ruta: string) {
+    let extras: NavigationExtras = { replaceUrl: true };
+    this.router.navigate([ruta], extras);
   }
 
   //validar que haya token de usuario registrado
   //creado por david el 01/05
-  async validarToken() {
-    this.tokenRegistrado = ""; //vaciar por seguridad
+  async validarDBOff() {
+    //si no hay token, navega a login
+    let token = await this.dbOff.obtenerTokenUsuarioLogueado();
+    if (!token) {
+      console.log("tatas: no hay token registrado, navegando a login");
+      setTimeout(() => this.navegarA("login"), 500);
+      return;
+    }
 
-    let usuario = await this.dbOff.obtenerTokenUsuarioLogueado();
-
-    if (usuario) {
-      //si hay token navega al principal
-      this.tokenRegistrado = usuario.token;
-      console.log("tatas: token registrado ", this.tokenRegistrado);
-      setTimeout(() => {
-        this.navegarPrincipal();
-      }, 1500);
+    //si hay token, segun tipo de usuario navega a ...
+    let usuario = await this.dbOff.obtenerDatosUsuarioLogueado();
+    if (usuario?.tipo_usuario === 1) {
+      console.log(`tatas Usuario logueado tipo ${usuario.tipo_usuario}, navegando a home tata`);
+      setTimeout(() => this.navegarA("home-tata"), 500);
+    } else if (usuario?.tipo_usuario === 2) {
+      console.log(`tatas Usuario logueado tipo ${usuario.tipo_usuario}, navegando a home tata`);
+      setTimeout(() => this.navegarA("home-familiar"), 500);
     } else {
-      //si no hay token navega al login
-      console.log("tatas: no hay token registrado");
-      setTimeout(() => {
-        this.navegarLogin();
-      }, 1500);
+      console.log('tatas Usuario logueado de tipo desconocido, navegando a login');
+      setTimeout(() => this.navegarA("login"), 500);
     }
   }
 

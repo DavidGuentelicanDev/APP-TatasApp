@@ -51,7 +51,7 @@ export class HomeFamiliarPage implements OnInit {
   }
 
   // Navegar a configuración
-  async navegarConfig() { 
+  navegarConfig() { 
     this.router.navigate(["configuracion"])
   }
 
