@@ -3,18 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonContent,
-  IonHeader,
-  IonTitle,
-  IonToolbar,
   IonButton,
-  IonList,
-  IonItem,
   IonIcon,
-  IonLabel,
   IonGrid,
   IonRow,
-  IonCol,
-  IonFooter
+  IonCol
 } from '@ionic/angular/standalone';
 
 import { DbOffService } from 'src/app/services/db-off.service';
@@ -27,19 +20,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./home-tata.page.scss'],
   standalone: true,
   imports: [
-    IonLabel,
     IonIcon,
-    IonItem,
-    IonList,
     IonButton,
     IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
     IonGrid,
     IonRow,
     IonCol,
-    IonFooter,
     CommonModule,
     FormsModule
   ]

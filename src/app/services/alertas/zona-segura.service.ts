@@ -18,6 +18,7 @@ export class ZonaSeguraService {
   private id_usuario: number = 0;
   private direccionUsuario: string = '';
   private baseUrl = environmentLocal.URLbase;
+  private intervalo: any = null; //intervalo para el proceso de zona segura
 
   constructor(
     private dbOff: DbOffService,
@@ -29,10 +30,13 @@ export class ZonaSeguraService {
     console.log("TATAS: iniciarVerificacion() ejecutado");
 
     // Ejecutar inmediatamente para pruebas
-    setTimeout(() => this.verificarZonaSegura(), 2000);
+    // setTimeout(() => this.verificarZonaSegura(), 2000);
+    this.verificarZonaSegura();
 
     // Ejecutar cada 5 minutos
-    setInterval(() => this.verificarZonaSegura(), 5 * 60 * 1000);
+    // setInterval(() => this.verificarZonaSegura(), 5 * 60 * 1000);
+    if (this.intervalo) clearInterval(this.intervalo);
+    this.intervalo = setInterval(() => this.verificarZonaSegura(), 5 * 60 * 1000);
   }
 
   async verificarZonaSegura() {
@@ -43,7 +47,8 @@ export class ZonaSeguraService {
       console.log("TATAS: Usuario obtenido:", usuario);
 
       if (!usuario) {
-        console.error("TATAS: No se encontraron datos del usuario.");
+        // No hay usuario logueado, solo loguea y espera el próximo ciclo
+        console.log("TATAS: No hay usuario logueado, esperando...");
         return;
       }
 

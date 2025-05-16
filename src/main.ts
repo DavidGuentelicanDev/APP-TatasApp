@@ -9,7 +9,22 @@ import { provideHttpClient } from '@angular/common/http'; //importacion para api
 import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx'; //importacion de sqlite
 import { addIcons } from 'ionicons'; //para usar los ionic icons
 //se debe importar cada icono por separado
-import { locate, calendar, people, personOutline, lockClosedOutline, arrowForwardOutline, radioButtonOn, radioButtonOff, trash, pencil } from 'ionicons/icons';
+import {
+  locate,
+  calendar,
+  people,
+  personOutline,
+  lockClosedOutline,
+  arrowForwardOutline,
+  radioButtonOn,
+  radioButtonOff,
+  trash,
+  pencil,
+  notificationsCircleOutline,
+  personAdd,
+  settings,
+  fileTrayFull
+} from 'ionicons/icons';
 
 //registrar iconos antes de iniciar la app
 addIcons({
@@ -22,7 +37,11 @@ addIcons({
   radioButtonOn,
   radioButtonOff,
   trash,
-  pencil
+  pencil,
+  notificationsCircleOutline,
+  personAdd,
+  settings,
+  fileTrayFull
 });
 
 bootstrapApplication(AppComponent, {

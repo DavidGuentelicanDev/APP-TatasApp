@@ -58,9 +58,10 @@ export class LoginPage implements OnInit {
       }
 
       if (usuario.tipo_usuario == 1) {
-        console.warn("TATAS: Usuario no es adulto mayor. Tipo:", usuario.tipo_usuario);
+        console.warn("TATAS: Usuario es adulto mayor. Tipo:", usuario.tipo_usuario);
         this.router.navigate(["home-tata"],extras)        
       }else{
+        console.warn("TATAS: Usuario no es adulto mayor. Tipo:", usuario.tipo_usuario);
         this.router.navigate(["home-familiar"],extras)
       }
   }

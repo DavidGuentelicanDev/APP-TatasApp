@@ -47,6 +47,19 @@ export class NotificacionesAlertasService {
   //metodo para recibir las alertas pendientes (estado 0) (SOLO FAMILIAR)
   //creado por david el 07/05
   async recibirAlertasPendientes() {
+    await this.obtenerUsuarioLogueado();
+
+    //validaciones por id y tipo de usuario logueado
+    if (!this.idUsuarioLogueado) {
+      console.log("tatas: No se puede iniciar consulta automática, usuario no logueado");
+      return;
+    }
+
+    if (this.tipoUsuarioLogueado != 2) {
+      console.log("tatas: No se puede iniciar consulta automática, usuario no es tipo familiar");
+      return;
+    }
+
     this.apiAlertas.obtenerAlertasPendientes(this.idUsuarioLogueado).subscribe({
       next: (alertas) => {
         console.log("tatas: alertas recibidas", JSON.stringify(alertas));
@@ -65,19 +78,6 @@ export class NotificacionesAlertasService {
   //inicia la consulta automatica cada N segundos
   //creado por david el 07/05
   async iniciarConsultaAutomaticaAlertas() {
-    await this.obtenerUsuarioLogueado();
-
-    //validaciones por id y tipo de usuario logueado
-    if (!this.idUsuarioLogueado) {
-      console.log("tatas: No se puede iniciar consulta automática, usuario no logueado");
-      return;
-    }
-
-    if (this.tipoUsuarioLogueado != 2) {
-      console.log("tatas: No se puede iniciar consulta automática, usuario no es tipo familiar");
-      return;
-    }
-
     //evita enviar multiples intervalos si ya hay uno vigente
     if (this.intervaloAlertas) {
       clearInterval(this.intervaloAlertas);
