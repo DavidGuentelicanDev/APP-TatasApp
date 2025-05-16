@@ -15,10 +15,6 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/inicio/registrar/registrar.page').then( m => m.RegistrarPage)
   },
   {
-    path: 'principal',
-    loadComponent: () => import('./pages/principal/principal.page').then( m => m.PrincipalPage)
-  },
-  {
     path: 'splash',
     loadComponent: () => import('./pages/inicio/splash/splash.page').then( m => m.SplashPage)
   },
@@ -86,7 +82,5 @@ export const routes: Routes = [
     path: 'home-familiar',
     loadComponent: () => import('./pages/home/home-familiar/home-familiar.page').then( m => m.HomeFamiliarPage)
   },
-
-
 
 ];
