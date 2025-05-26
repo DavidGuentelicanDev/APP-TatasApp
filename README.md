@@ -19,6 +19,7 @@ TatasApp es una aplicación móvil híbrida desarrollada con **Ionic + Angular**
 - **Base de datos local SQLite**: Persistencia de sesión y almacenamiento de datos básicos del usuario logueado, utilizados en distintas funcionalidades de la app.
 
 ---
+
 ## 🔁 Flujo de Trabajo
 
 1. El usuario interactúa con la interfaz (páginas Ionic/Angular).
