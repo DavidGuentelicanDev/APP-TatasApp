@@ -5,6 +5,9 @@ import { ZonaSeguraService } from './services/alertas/zona-segura.service';
 import { NotificacionesAlertasService } from './services/alertas/notificaciones-alertas.service';
 import { SplashScreen } from '@capacitor/splash-screen';
 
+///////////////// agregado por andrea 21/05/2025
+import { NotificacionEventosService } from './services/alertas/notificacion-eventos.service';
+
 
 //funcion para poder cargar la api de google maps
 export function loadGoogleMaps(apiKey: string) {
@@ -30,7 +33,9 @@ export class AppComponent implements OnInit {
 
   constructor(
     private zonaSegura: ZonaSeguraService,
-    private notificacionesAlertas: NotificacionesAlertasService
+    private notificacionesAlertas: NotificacionesAlertasService,
+    ///////////////agregado por andrea 21/05/2025
+    private notificacionEventosService: NotificacionEventosService
   ) {
     this.mostrarSplash(); //para que el splash aparezca al iniciar
   }
@@ -41,6 +46,8 @@ export class AppComponent implements OnInit {
       loadGoogleMaps(environmentLocal.googleMapsApiKey);
       this.zonaSegura.iniciarVerificacion();
       this.notificacionesAlertas.iniciarConsultaAutomaticaAlertas();
+      ////////// agregado por Andrea 21/05/2025
+      this.notificacionEventosService.iniciarConsultaEventosProximos();
     } catch (err) {
       console.error("TATAS: Error en ngOnInit AppComponent", err);
     }

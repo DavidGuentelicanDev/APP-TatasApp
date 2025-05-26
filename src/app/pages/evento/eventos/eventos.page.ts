@@ -27,6 +27,7 @@ export class EventosPage implements OnInit {
   calendarOptions: any = {
     plugins: [dayGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
+    timeZone: 'local', //agregado por andrea 21/05/2025
     events: [],
     eventClick: this.handleEventClick.bind(this), // 👈 ACTIVADOR
     eventContent: this.soloHoraEvento.bind(this),

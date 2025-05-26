@@ -67,6 +67,9 @@ export class CrearEventoPage implements OnInit {
 
     try {
       //enviar datos a la api
+      const fechaLocal = new Date(this.mdl_evento.fechaHora);
+       this.mdl_evento.fechaHora = fechaLocal.toISOString(); // ← AQUÍ está la clave
+
       let datos = this.apiEvento.crearEvento(this.mdl_evento);
       let respuesta = await lastValueFrom(datos);
       let json_texto = JSON.stringify(respuesta);
