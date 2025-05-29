@@ -1,22 +1,19 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="ion-margin-top">
+<ion-header class="encabezado-registro" [translucent]="true">
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="/configuracion"></ion-back-button>
     </ion-buttons>
-    <ion-title>Cambiar Contraseña</ion-title>
+    <ion-title class="titulo-registro">Cambiar Contraseña</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true" class="fondo-calendario ion-padding">
   <ion-item>
     <ion-label position="floating">Confirma tu correo actual</ion-label>
-    <ion-input
-      [(ngModel)]="correoIngresado"
-      type="email"
-      required
-    ></ion-input>
+    <ion-input [(ngModel)]="correoIngresado" type="email" required></ion-input>
   </ion-item>
-  <ion-button expand="block" class="ion-padding" (click)="validarCorreoIngresado()">Verificar</ion-button>
+
+  <ion-button expand="block" class="boton-crear-evento" (click)="validarCorreoIngresado()">Verificar</ion-button>
 
   <ion-text color="danger" *ngIf="correoValido === false" class="ion-padding">
     <p>El correo ingresado no coincide con el registrado.</p>
@@ -29,22 +26,14 @@
 
     <ion-item class="ion-margin-top">
       <ion-label position="floating">Nueva Contraseña</ion-label>
-      <ion-input
-        [(ngModel)]="nuevaContrasena"
-        type="password"
-        required
-      ></ion-input>
+      <ion-input [(ngModel)]="nuevaContrasena" type="password" required></ion-input>
     </ion-item>
 
     <ion-item class="ion-margin-top">
       <ion-label position="floating">Confirmar Contraseña</ion-label>
-      <ion-input
-        [(ngModel)]="confirmarContrasena"
-        type="password"
-        required
-      ></ion-input>
+      <ion-input [(ngModel)]="confirmarContrasena" type="password" required></ion-input>
     </ion-item>
 
-    <ion-button expand="block" class="ion-padding" (click)="editarContrasena()">Guardar</ion-button>
+    <ion-button expand="block" class="boton-crear-evento" (click)="editarContrasena()">Guardar</ion-button>
   </div>
 </ion-content>

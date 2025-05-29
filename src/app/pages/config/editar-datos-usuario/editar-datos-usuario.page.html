@@ -1,13 +1,13 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="ion-margin-top">
+<ion-header class="encabezado-registro" [translucent]="true">
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="/configuracion"></ion-back-button>
     </ion-buttons>
-    <ion-title>Editar Datos</ion-title>
+    <ion-title class="titulo-registro">Editar Datos</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true" class="fondo-calendario ion-padding">
   <form (ngSubmit)="guardarCambios()">
     <ion-item>
       <ion-label position="floating">Nombres</ion-label>
@@ -20,11 +20,15 @@
     </ion-item>
 
     <ion-item>
-      <input id="autocomplete" type="text"
+      <ion-label position="floating">Dirección</ion-label>
+      <ion-input
+        id="autocomplete"
+        type="text"
         [(ngModel)]="datosUsuario.direccion.direccion_texto"
-        [ngModelOptions]="{standalone: true}"
+        name="direccion_texto"
         (input)="onDireccionInputChange($event)"
-        placeholder="Dirección Completa" />
+        placeholder="Dirección Completa">
+      </ion-input>
     </ion-item>
 
     <ion-item>
@@ -46,6 +50,6 @@
       <ion-input [(ngModel)]="datosUsuario.direccion.adicional" name="adicional"></ion-input>
     </ion-item>
 
-    <ion-button expand="block" type="submit" class="ion-padding">Guardar Cambios</ion-button>
+    <ion-button expand="block" type="submit" class="boton-crear-evento">Guardar Cambios</ion-button>
   </form>
 </ion-content>

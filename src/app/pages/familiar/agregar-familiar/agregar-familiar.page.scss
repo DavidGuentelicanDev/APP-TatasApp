@@ -1,9 +1,40 @@
 ion-item.bloqueado {
-    opacity: 0.5;
-    pointer-events: none;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .bloqueado-texto {
-    font-style: italic;
-    color: var(--ion-color-medium);
+  font-style: italic;
+  color: var(--ion-color-medium);
+}
+
+/* Fondo de la página */
+.fondo-calendario {
+  --background: #e0f7f7;
+  background-color: #e0f7f7 !important;
+}
+
+/* Encabezado */
+.encabezado-registro {
+  background-color: #007d8c !important;
+  --background: #007d8c;
+  color: white !important;
+}
+
+.titulo-registro {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  color: white !important;
+}
+
+/* Botón Guardar */
+.boton-crear-evento {
+  --background: #64b3b5;
+  --border-radius: 20px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 20px;
 }

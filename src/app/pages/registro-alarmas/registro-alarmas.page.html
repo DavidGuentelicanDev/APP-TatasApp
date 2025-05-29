@@ -1,17 +1,15 @@
+<ion-header class="encabezado-registro" [translucent]="true">
+  <ion-toolbar>
+    <ion-title class="titulo-registro">Registro Alerta Tatas</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-
-<ion-content class="ion-padding">
-  <!-- Contenedor centrado con separación adicional del header -->
-   <br>
-   <br>
-   <ion-label class="titulo">Registro Alerta Tatas</ion-label>
-   <br>
-   <br>
+<ion-content class="fondo-calendario ion-padding">
   <div class="center-wrapper">
     <ion-list *ngIf="alertas.length > 0">
-      <ion-item *ngFor="let alerta of alertas">
+      <ion-item *ngFor="let alerta of alertas" class="alerta-item">
         <ion-label>
-          <h3>{{ tipoAlertas[alerta.tipo_alerta] || 'Alerta' }}</h3>
+          <h3 class="alerta-tipo">{{ tipoAlertas[alerta.tipo_alerta] || 'Alerta' }}</h3>
           <p>{{ alerta.mensaje }}</p>
           <p *ngIf="alerta.ubicacion">
             <strong>Ubicación:</strong>
@@ -21,13 +19,7 @@
         </ion-label>
       </ion-item>
     </ion-list>
-  </div>
 
-  <!-- Infinite Scroll -->
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content
-      loadingSpinner="crescent"
-      loadingText="Cargando alertas...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <p *ngIf="alertas.length === 0" class="mensaje-vacio">No hay alertas registradas.</p>
+  </div>
 </ion-content>

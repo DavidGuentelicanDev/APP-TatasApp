@@ -9,8 +9,14 @@ import {
   IonInfiniteScrollContent,
   IonItem,
   IonLabel,
-  IonList
+  IonList,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonBackButton
 } from '@ionic/angular/standalone';
+
 import { ZonaSeguraService } from '../../services/alertas/zona-segura.service';
 import { DbOffService } from '../../services/db-off.service';
 import { SosService } from 'src/app/services/alertas/sos.service';
@@ -21,13 +27,18 @@ import { ApiAlertasService } from 'src/app/services/api/api-alertas.service';
   templateUrl: './registro-alarmas.page.html',
   styleUrls: ['./registro-alarmas.page.scss'],
   imports: [
+    CommonModule,
     IonContent,
     IonItem,
     IonList,
     IonLabel,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
-    CommonModule
+    IonHeader,       // ✅ necesarios para <ion-header>
+    IonToolbar,      // ✅ necesarios para <ion-toolbar>
+    IonTitle,        // ✅ necesarios para <ion-title>
+    IonButtons,      // ✅ necesarios para <ion-buttons>
+    IonBackButton    // ✅ necesarios para <ion-back-button>
   ]
 })
 export class RegistroAlarmasPage implements OnInit {
@@ -101,18 +112,15 @@ export class RegistroAlarmasPage implements OnInit {
     console.log("TATAS: Alerta mostrada:", titulo, mensaje);
   }
 
-  // Función para el Infinite Scroll
+  // Función para el Infinite Scroll (puedes eliminarla si ya no usas scroll infinito)
   loadData(event: any) {
     console.log("Cargando más datos...", event);
-    // Aquí implementa la lógica para cargar más datos
-    setTimeout(() => {
-      // Ejemplo: Agregar más elementos al array alertas (reemplaza este ejemplo con tu lógica real)
-      // this.alertas = this.alertas.concat(nuevasAlertas);
 
-      // Finaliza la operación del infinite scroll
+    setTimeout(() => {
+      // Aquí puedes agregar lógica de carga si la necesitas
       event.target.complete();
 
-      // Si ya no hay más datos, deshabilita el infinite scroll:
+      // Si ya no hay más datos:
       // event.target.disabled = true;
 
       console.log("Carga completada.");

@@ -1,11 +1,11 @@
-<ion-header [translucent]="true">
+<ion-header class="encabezado-registro" [translucent]="true">
   <ion-toolbar>
-    <ion-title>Grupo Familiar</ion-title>
+    <ion-title class="titulo-registro">Grupo Familiar</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-button expand="block" class="ion-padding" (click)="navegarAgregarFamiliar()">Agregar Familiar</ion-button>
+<ion-content [fullscreen]="true" class="fondo-calendario">
+  <ion-button expand="block" class="boton-crear-evento" (click)="navegarAgregarFamiliar()">Agregar Familiar</ion-button>
 
   <ion-list>
     <ion-item *ngFor="let f of familiaresRegistrados">

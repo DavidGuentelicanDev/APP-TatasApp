@@ -1,17 +1,17 @@
-<ion-header [translucent]="true">
+<ion-header class="encabezado-registro" [translucent]="true">
   <ion-toolbar>
-    <ion-title>Agregar Familiares</ion-title>
+    <ion-title class="titulo-registro">Agregar Familiares</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="fondo-calendario">
   <ion-list>
     <ion-item
       *ngFor="let contacto of contactosCoincidentes"
       [disabled]="contacto.bloqueado"
       (click)="seleccionarContacto(contacto)"
       [class.bloqueado]="contacto.bloqueado">
-      <!-- Círculo de selección -->
+      
       <ion-icon
         [name]="estaSeleccionado(contacto) ? 'radio-button-on' : 'radio-button-off'"
         slot="start"
@@ -29,5 +29,5 @@
     </ion-item>
   </ion-list>
 
-  <ion-button expand="block" class="ion-padding" (click)="agregarFamiliares()">Guardar</ion-button>
+  <ion-button expand="block" class="boton-crear-evento" (click)="agregarFamiliares()">Guardar</ion-button>
 </ion-content>
