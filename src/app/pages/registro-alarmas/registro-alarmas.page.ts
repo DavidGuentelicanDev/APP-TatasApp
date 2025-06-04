@@ -5,16 +5,12 @@ import { CommonModule } from '@angular/common';
 import {
   AlertController,
   IonContent,
-  IonInfiniteScroll,
-  IonInfiniteScrollContent,
   IonItem,
   IonLabel,
   IonList,
   IonHeader,
   IonToolbar,
-  IonTitle,
-  IonButtons,
-  IonBackButton
+  IonTitle
 } from '@ionic/angular/standalone';
 
 import { ZonaSeguraService } from '../../services/alertas/zona-segura.service';
@@ -32,13 +28,9 @@ import { ApiAlertasService } from 'src/app/services/api/api-alertas.service';
     IonItem,
     IonList,
     IonLabel,
-    IonInfiniteScroll,
-    IonInfiniteScrollContent,
     IonHeader,       // ✅ necesarios para <ion-header>
     IonToolbar,      // ✅ necesarios para <ion-toolbar>
-    IonTitle,        // ✅ necesarios para <ion-title>
-    IonButtons,      // ✅ necesarios para <ion-buttons>
-    IonBackButton    // ✅ necesarios para <ion-back-button>
+    IonTitle    // ✅ necesarios para <ion-back-button>
   ]
 })
 export class RegistroAlarmasPage implements OnInit {

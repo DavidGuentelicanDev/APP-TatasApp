@@ -8,6 +8,7 @@ import { FamiliarRegistrado } from 'src/app/interfaces/familiar';
 import { DbOffService } from 'src/app/services/db-off.service';
 import { lastValueFrom } from 'rxjs';
 import { AlertController } from '@ionic/angular';
+import { ApiConfigService } from 'src/app/services/api/api-config.service';
 
 
 @Component({
@@ -21,22 +22,26 @@ export class FamiliaresPage implements OnInit {
 
   idUsuarioLogueado: number = 0; //usuario logueado
   familiaresRegistrados: FamiliarRegistrado[] = []; //lista recepcionar infor de familiares registrados
+  fotoPerfilBase64: string | null = null; //para guardar la foto de perfil base64
 
   constructor(
     private router: Router,
     private apiFamiliares: ApiFamiliaresService,
     private dbOff: DbOffService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private apiConfig: ApiConfigService
   ) { }
 
   async ngOnInit() {
     await this.obtenerIdUsuarioLogueado(); //obtener el id del usuario logueado
     await this.cargarFamiliaresRegistrados(); //cargar familiares registrados al iniciar la pagina
+    await this.obtenerFotoPerfil();
   }
 
   async ionViewWillEnter() {
     await this.obtenerIdUsuarioLogueado(); //obtener el id del usuario logueado
     await this.cargarFamiliaresRegistrados(); //cargar familiares registrados al volver a la pagina
+    await this.obtenerFotoPerfil();
   }
 
   //obtener id de usuario registrado al momento de entrar a la pagina
@@ -125,6 +130,21 @@ export class FamiliaresPage implements OnInit {
       buttons: ['OK']
     });
     await alerta.present();
+  }
+
+  //obtener foto de perfil
+  //creado por david el 09/05
+  async obtenerFotoPerfil() {
+    try {
+      let data = this.apiConfig.obtenerFotoPerfil(this.idUsuarioLogueado);
+      let respuesta = await lastValueFrom(data);
+      let json_texto = JSON.stringify(respuesta);
+      let json = JSON.parse(json_texto);
+      this.fotoPerfilBase64 = json.foto_perfil;
+      console.log("tatas foto perfil: ", this.fotoPerfilBase64);
+    } catch (e) {
+      console.error("tatas error al obtener la foto de perfil:", e);
+    }
   }
 
 }
