@@ -7,6 +7,7 @@ import { SplashScreen } from '@capacitor/splash-screen';
 
 ///////////////// agregado por andrea 21/05/2025
 import { NotificacionEventosService } from './services/alertas/notificacion-eventos.service';
+import { DeteccionCaidasService } from './services/alertas/caidas.service';
 
 
 //funcion para poder cargar la api de google maps
@@ -35,7 +36,8 @@ export class AppComponent implements OnInit {
     private zonaSegura: ZonaSeguraService,
     private notificacionesAlertas: NotificacionesAlertasService,
     ///////////////agregado por andrea 21/05/2025
-    private notificacionEventosService: NotificacionEventosService
+    private notificacionEventosService: NotificacionEventosService,
+    private caidas: DeteccionCaidasService
   ) {
     this.mostrarSplash(); //para que el splash aparezca al iniciar
   }
@@ -48,6 +50,7 @@ export class AppComponent implements OnInit {
       this.notificacionesAlertas.iniciarConsultaAutomaticaAlertas();
       ////////// agregado por Andrea 21/05/2025
       this.notificacionEventosService.iniciarConsultaEventosProximos();
+      this.caidas.iniciarMonitoreo();
     } catch (err) {
       console.error("TATAS: Error en ngOnInit AppComponent", err);
     }

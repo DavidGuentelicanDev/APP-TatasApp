@@ -49,10 +49,10 @@ export class DeteccionCaidasService {
       //console.log("TATAS: Aceleración detectada:", fuerza);
 
       // Umbral aproximado de caída libre o impacto fuerte
-      if (fuerza < 3 || fuerza > 30) {
+      if (fuerza < 7 || fuerza > 15) {
         console.warn("TATAS: Posible caída detectada, enviando alerta...");
-        await this.enviarAlerta('Se ha detectado una posible caída.');
-        await this.hablar('Se ha detectado una posible caída.');
+        await this.enviarAlerta('TATAS: Se ha detectado una posible caída.');
+        await this.hablar('TATAS Se ha detectado una posible caída.');
       }
 
     } catch (err) {
@@ -72,17 +72,17 @@ export class DeteccionCaidasService {
         tipo_alerta: 3
       };
 
-      console.log("ALE: Enviando alerta con ubicación:", JSON.stringify(alerta));
+      console.log("TATAS: Enviando alerta con ubicación:", JSON.stringify(alerta));
 
       const res = await this.http.post(`${this.baseUrl}/alertas/crear-alerta`, alerta).toPromise();
-      console.log("ALE: Alerta por caída enviada correctamente:", res);
+      console.log("TATAS: Alerta por caída enviada correctamente:", res);
 
     } catch (err: any) {
       try {
         const detalle = typeof err.error === 'object' ? JSON.stringify(err.error) : err.error;
-        console.error('ALE: Error al enviar alerta por caída (detalle JSON):', detalle);
+        console.error('TATAS: Error al enviar alerta por caída (detalle JSON):', detalle);
       } catch (e) {
-        console.error('ALE: Error inesperado al procesar error:', e);
+        console.error('TATAS: Error inesperado al procesar error:', e);
       }
     }
   }

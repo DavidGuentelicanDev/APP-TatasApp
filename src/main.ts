@@ -25,6 +25,8 @@ import {
   settings,
   fileTrayFull
 } from 'ionicons/icons';
+import { DeviceMotion } from '@awesome-cordova-plugins/device-motion/ngx';
+
 
 //registrar iconos antes de iniciar la app
 addIcons({
@@ -51,5 +53,6 @@ bootstrapApplication(AppComponent, {
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     SQLite,
+    DeviceMotion,
   ],
 });
